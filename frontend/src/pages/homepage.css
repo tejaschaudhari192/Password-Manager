@@ -1,0 +1,25 @@
+.sidebar-gradient {
+    background: rgb(38, 40, 53);
+    background: linear-gradient(180deg, rgba(38, 40, 53, 1) 0%, rgba(5, 11, 27, 1) 100%);
+    /* background-color: #27293687; */
+
+}
+
+
+.bShadow {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
+
+}
+
+.input-box input {
+    height: 40px;
+    border: none;
+    z-index: 100;
+    outline: none;
+    caret-color: violet;
+    text-decoration: none;
+}
+
+.hide-scrollbar {
+    scrollbar-width: none;
+}
