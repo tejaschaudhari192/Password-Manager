@@ -1,6 +1,6 @@
 import ApexCharts from 'apexcharts'
 import { useEffect } from 'react';
-import profile from "./../assets/profile.png"
+import profile from "../assets/profile.png"
 
 const isStrongPassword = (password) => {
     const lengthCriteria = password.length >= 8;

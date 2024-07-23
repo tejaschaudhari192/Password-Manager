@@ -1,6 +1,6 @@
 import React from 'react'
 import useOnlineStatus from '../utils/useOnlineStatus'
-import profile from "./../assets/profile.png"
+import profile from "../assets/profile.png"
 
 const Navbar = () => {
     return (

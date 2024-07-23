@@ -17,7 +17,7 @@ const Homepage = () => {
     }, []);
 
     async function getPasswords() {
-        await axios.get('http://localhost:8080/')
+        await axios.get('https://password-manager-backend-brown.vercel.app/')
             .then((response) => {
                 setData(response.data)
                 setRowItems(response.data)

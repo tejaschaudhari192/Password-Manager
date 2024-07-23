@@ -2,7 +2,7 @@ import React from 'react'
 import Homepage from './pages/Homepage';
 import './App.css'
 
-const App = () => {
+const Desktop = () => {
   return (
     <>
       { }
@@ -10,8 +10,7 @@ const App = () => {
         <Homepage />
       </div>
     </>
-
   )
 }
 
-export default App;
+export default Desktop;
