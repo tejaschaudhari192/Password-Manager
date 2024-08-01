@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { CiEdit, CiStar } from 'react-icons/ci'
 import { FaEye, FaEyeSlash, FaRegClipboard, FaRegEdit, FaRegStar, FaStar } from 'react-icons/fa'
 import { AiOutlineDelete } from 'react-icons/ai'
-import PasswordGeneratorModal from './PasswordGenerator'
 import axios from 'axios'
 
 import UpdateModal from './UpdateModal'
@@ -42,7 +41,7 @@ const formatDateAndCalculateDaysAgo = (dateString) => {
 const Field = ({ name, value }) => {
     return <div>
         <p className='text-base text-blue-400'>{name}</p>
-        <p className='text-lg'>{value}</p>
+        <p className='text-lg dark:text-white'>{value}</p>
     </div>
 }
 
@@ -61,25 +60,25 @@ const PasswordItem = ({ password }) => {
 
     return (
         <div className='flex flex-col'>
-            <p className='text-base text-blue-500'>Password</p>
+            <p className='text-base'>Password</p>
             <div className="relative flex w-4/5">
                 <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     readOnly
-                    className=" w-full text-lg bg-inherit text-white border-none rounded-md focus:outline-none"
+                    className=" w-full text-lg bg-inherit dark:text-white border-none rounded-md focus:outline-none"
                 />
                 <button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="absolute right-12 p-2 text-white"
+                    className="absolute right-12 p-2 dark:text-white"
                 >
                     {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
                 </button>
                 <button
                     type="button"
                     onClick={copyToClipboard}
-                    className="absolute right-2 p-2 text-white"
+                    className="absolute right-2 p-2 dark:text-white"
                 >
                     <FaRegClipboard size={20} />
                 </button>
@@ -97,8 +96,6 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
     const handleModalClose = () => setModalShow(false);
     const handleModalShow = () => setModalShow(true);
 
-    const handleChildModalClose = () => setChildModalShow(false);
-    const handleChildModalShow = () => setChildModalShow(true);
 
     const handleDelete = async (curr) => {
         const id = curr._id;
@@ -124,7 +121,7 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
     }
 
 
-    const handleFavourite = async () => {
+    const handleFavorite = async () => {
         setFavorite(!favorite)
         const id = curr._id;
 
@@ -151,17 +148,12 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
             .catch((error) => {
                 console.log(error);
             })
-
-        // location.reload()
-
     }
 
-
-
     return (
-        <div className='bg-[#181b2c] w-full m-4 rounded-2xl p-10'>
-            <div className='flex justify-end gap-2 w-full h-8'>
-                <div onClick={() => handleFavourite()}>
+        <div className='bg-orange-50 border-4 dark:border-0 m-auto text-black dark:bg-[#181b2c] w-full rounded-2xl p-10'>
+            <div className='flex justify-end gap-2 w-full h-8 dark:text-white'>
+                <div onClick={() => handleFavorite()}>
                     {(curr.isFavorite == true) ?
                         <FaStar size={30} /> :
                         <FaRegStar size={30} />
@@ -173,11 +165,11 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
 
             <div className=" flex gap-4 h-16 w-[400px] p-2 rounded-xl">
 
-                <img className="w-14 h-14 rounded-xl bg-slate-600" src={curr.logo}></img>
-                <div className="flex flex-col justify-center gap-1 overflow-hidden">
-                    <h3 className="text-base font-bold text-white">{curr.name}</h3>
+                <img className="w-14 h-14 rounded-xl bg-transparent" src={curr.logo}></img>
+                <div className="flex flex-col justify-center gap-1 overflow-hidden dark:text-white">
+                    <h3 className="text-base font-bold">{curr.name}</h3>
                     <div className="flex">
-                        <p className="text-sm font-semibold text-white text-nowrap opacity-55">{curr.category}</p>
+                        <p className="text-sm font-semibold text-nowrap opacity-55">{curr.category}</p>
                     </div>
                 </div>
             </div>
@@ -196,8 +188,7 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
             </div>
 
             {/* Modal */}
-            {modalShow && <UpdateModal curr={curr} handleModalClose={handleModalClose} handleChildModalShow={handleChildModalShow} setRowItems={setRowItems} setData={setData} />}
-            <PasswordGeneratorModal isOpen={childModalShow} onClose={handleChildModalClose} />
+            {modalShow && <UpdateModal curr={curr} handleModalClose={handleModalClose} dsetRowItems={setRowItems} setData={setData} />}
 
         </div>
     )

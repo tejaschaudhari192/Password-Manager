@@ -17,7 +17,7 @@ const Homepage = () => {
     }, []);
 
     async function getPasswords() {
-        await axios.get('https://password-manager-backend-brown.vercel.app/')
+        await axios.get('http://localhost:8080/')
             .then((response) => {
                 setData(response.data)
                 setRowItems(response.data)
@@ -28,15 +28,10 @@ const Homepage = () => {
             })
     }
 
-
-    // if (rowItems.length < 1) {
-    //     return <div></div>
-    // }
-
-    return <div className='flex w-full h-full'>
+    return <div className='flex w-full h-full '>
 
         <Sidebar data={data} curr={setRowItems} setRowItems={setRowItems} />
-        <div className='bg-[#050414] w-full flex flex-row'>
+        <div className='bg-[#f7f7f7] dark:bg-[#050414] w-full flex flex-row'>
             <ItemList curr={setSelected} list={rowItems} rowFunc={setRowItems} />
 
             <div className='flex flex-col w-full h-full overflow-clip '>
@@ -52,20 +47,5 @@ const Homepage = () => {
     </div>
 }
 
-const getIconClass = (item) => {
-    switch (item) {
-        case 'Amazon Prime': return 'fab fa-amazon';
-        case 'Apple TV+': return 'fab fa-apple';
-        case 'Disney+': return 'fab fa-disney';
-        case 'HBO Max': return 'fas fa-tv';
-        case 'Hulu': return 'fas fa-hulu';
-        case 'NFL GamePass': return 'fas fa-football-ball';
-        case 'Netflix': return 'fab fa-netflix';
-        case 'Spotify': return 'fab fa-spotify';
-        case 'Twitch': return 'fab fa-twitch';
-        case 'YouTube': return 'fab fa-youtube';
-        default: return 'fas fa-tv';
-    }
-};
 
 export default Homepage;

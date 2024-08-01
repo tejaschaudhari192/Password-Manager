@@ -4,16 +4,16 @@ import { FaSearch } from "react-icons/fa";
 import { IoIosLock } from "react-icons/io";
 import Vault from './component/Vault'
 import { IoSearchOutline } from 'react-icons/io5'
-import mockData from './constant/mockData'
+
 import NewItemPanel from './component/NewItemPanel';
 import axios from 'axios';
 
 
 
-const Mobile = () => {
+const App = () => {
 
-  const [items, setItems] = useState(mockData);
-  const [filteredItems, setFilteredItems] = useState(mockData);
+  const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [searchText, setSearchText] = useState("");
 
 
@@ -30,8 +30,9 @@ const Mobile = () => {
   useEffect(() => {
     getPasswords();
   }, [])
+
   async function getPasswords() {
-    await axios.get('https://password-manager-backend-brown.vercel.app/')
+    await axios.get('http://localhost:8080/')
       .then((response) => {
         console.log(response.data);
         setItems(response.data)
@@ -75,6 +76,7 @@ const Mobile = () => {
             }}
           />
 
+
           <button className='w-1/6 h-10 bg-slate-200' onClick={() => {
 
             let filterItems = items.filter(
@@ -86,18 +88,20 @@ const Mobile = () => {
           }}>
             <FaSearch className='ml-6' size={17} color='#333333' />
           </button>
+
+
         </div>
 
 
       </div>
 
 
-      <Vault datag={filteredItems} setFilteredItems={setFilteredItems} setItems={setItems} />
+      <Vault datag={filteredItems} setFilteredItems={setFilteredItems} items={items} setItems={setItems} />
 
 
 
       {/* Add new item */}
-      <div className="p-4 absolute bottom-2 right-3">
+      <div className="p-4 absolute bottom-12 right-2">
         <button
           onClick={handleOpenPanel}
           className="px-4 py-2 bg-blue-500 text-white rounded shadow-lg hover:bg-blue-600"
@@ -114,4 +118,4 @@ const Mobile = () => {
 }
 
 
-export default Mobile
+export default App

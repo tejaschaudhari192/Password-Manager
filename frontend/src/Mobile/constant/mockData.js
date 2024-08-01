@@ -1,6 +1,6 @@
-const items = [
+export const items = [
     {
-        "name": "Ketflix",
+        "name": "Netflix",
         "site": "www.netflix.com",
         "username": "tejas",
         "email": "tejas@example.com",
@@ -9,7 +9,7 @@ const items = [
         "type": "Logins",
         "category": "Streaming",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=yPOgUFWHVx7X&format=png&color=000000"
     },
     {
         "name": "Amazon Prime",
@@ -21,7 +21,7 @@ const items = [
         "type": "Logins",
         "category": "Streaming",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png"
+        "logo": "https://img.icons8.com/?size=100&id=mJTj7Q9EPSVn&format=png&color=000000"
     },
     {
         "name": "Hulu",
@@ -33,7 +33,7 @@ const items = [
         "type": "Logins",
         "category": "Streaming",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Hulu_Logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=TG5b2eR21DuF&format=png&color=000000"
     },
     {
         "name": "Disney+",
@@ -45,7 +45,7 @@ const items = [
         "type": "Logins",
         "category": "Streaming",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=UgLZ7UHMfzU5&format=png&color=000000"
     },
     {
         "name": "HBO Max",
@@ -57,7 +57,7 @@ const items = [
         "type": "Logins",
         "category": "Streaming",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=lZfOrvLHxy9S&format=png&color=000000"
     },
     {
         "name": "Spotify",
@@ -69,7 +69,7 @@ const items = [
         "type": "Logins",
         "category": "Streaming",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg"
+        "logo": "https://img.icons8.com/?size=100&id=0wzAMt8KO1C6&format=png&color=000000"
     },
     {
         "name": "Apple TV+",
@@ -81,7 +81,7 @@ const items = [
         "type": "Logins",
         "category": "Streaming",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg"
+        "logo": "https://img.icons8.com/?size=100&id=erlocm5T9jvM&format=png&color=000000"
     },
     {
         "name": "YouTube",
@@ -93,7 +93,7 @@ const items = [
         "type": "Logins",
         "category": "Social Media",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png"
+        "logo": "https://img.icons8.com/?size=100&id=9itS6I2x2vV2&format=png&color=000000"
     },
     {
         "name": "Twitch",
@@ -105,7 +105,7 @@ const items = [
         "type": "Logins",
         "category": "Social Media",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/7/76/Twitch_Logo_2019.svg"
+        "logo": "https://img.icons8.com/?size=100&id=XTmPgiLA41sk&format=png&color=000000"
     },
     {
         "name": "Twitter",
@@ -117,7 +117,7 @@ const items = [
         "type": "Logins",
         "category": "Social Media",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/en/6/60/Twitter_Logo_as_of_2021.svg"
+        "logo": "https://img.icons8.com/?size=100&id=kbuAJVwYUPvh&format=png&color=000000"
     },
     {
         "name": "Facebook",
@@ -129,7 +129,7 @@ const items = [
         "type": "Logins",
         "category": "Social Media",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+        "logo": "https://img.icons8.com/?size=100&id=8818&format=png&color=000000"
     },
     {
         "name": "Instagram",
@@ -141,7 +141,8 @@ const items = [
         "type": "Logins",
         "category": "Social Media",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"
+        // "logo": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png"
+        "logo": "https://img.icons8.com/?size=100&id=Xy10Jcu1L2Su&format=png&color=000000"
     },
     {
         "name": "LinkedIn",
@@ -153,7 +154,7 @@ const items = [
         "type": "Logins",
         "category": "Social Media",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/0/01/LinkedIn_Logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=xuvGCOXi8Wyg&format=png&color=000000"
     },
     {
         "name": "Reddit",
@@ -165,7 +166,7 @@ const items = [
         "type": "Logins",
         "category": "Social Media",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/5/58/Reddit_logo_new.svg"
+        "logo": "https://img.icons8.com/?size=100&id=5RTQxy0E0NUY&format=png&color=000000"
     },
     {
         "name": "WhatsApp",
@@ -177,7 +178,7 @@ const items = [
         "type": "Logins",
         "category": "Social Media",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+        "logo": "https://img.icons8.com/?size=100&id=UBjTW632xuVM&format=png&color=000000"
     },
     {
         "name": "Steam",
@@ -189,7 +190,7 @@ const items = [
         "type": "Logins",
         "category": "Gaming",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=12505&format=png&color=000000"
     },
     {
         "name": "Epic Games",
@@ -201,7 +202,7 @@ const items = [
         "type": "Logins",
         "category": "Gaming",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/3/31/Epic_Games_logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=bCP28brs5BYg&format=png&color=000000"
     },
     {
         "name": "PayPal",
@@ -213,19 +214,7 @@ const items = [
         "type": "Logins",
         "category": "Finance",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
-    },
-    {
-        "name": "Bank of America",
-        "site": "www.bankofamerica.com",
-        "username": "tejas",
-        "email": "tejas@example.com",
-        "password": "boa#123",
-        "isFavorite": true,
-        "type": "Logins",
-        "category": "Finance",
-        "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Bank_of_America_Logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=CcZPuP1Awed7&format=png&color=000000"
     },
     {
         "name": "Chase",
@@ -237,7 +226,7 @@ const items = [
         "type": "Logins",
         "category": "Finance",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/3/32/Chase_Bank_logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=65313&format=png&color=000000"
     },
     {
         "name": "Venmo",
@@ -249,7 +238,7 @@ const items = [
         "type": "Logins",
         "category": "Finance",
         "lastModified": "2024-06-02T00:00:00Z",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Venmo_logo.svg"
+        "logo": "https://img.icons8.com/?size=100&id=iJIbu0YIn6lA&format=png&color=000000"
     }
 ]
 

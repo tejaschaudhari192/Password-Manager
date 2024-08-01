@@ -1,11 +1,3 @@
-.sidebar-gradient {
-    background: rgb(38, 40, 53);
-    background: linear-gradient(180deg, rgba(38, 40, 53, 1) 0%, rgba(5, 11, 27, 1) 100%);
-    /* background-color: #27293687; */
-
-}
-
-
 .bShadow {
     box-shadow: rgba(0, 0, 0, 0.35) 0px -50px 36px -28px inset;
 
@@ -22,4 +14,11 @@
 
 .hide-scrollbar {
     scrollbar-width: none;
+}
+
+.bg-custom {
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image: radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+    background-size: 10px 10px;
 }

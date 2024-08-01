@@ -8,15 +8,17 @@ import axios from 'axios';
 function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 
   const [name, setName] = useState(item?.name || '');
+  const [username, setUsername] = useState(item?.username || '');
+  const [email, setEmail] = useState(item?.email || '');
   const [category, setCategory] = useState(item?.category || '');
-  const [site, setSite] = useState(item?.site || '');
   const [password, setPassword] = useState(item?.password || '');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   useEffect(() => {
     setName(item?.name || '');
+    setUsername(item?.username || '');
+    setEmail(item?.email || '');
     setCategory(item?.category || '');
-    setSite(item?.site || '');
     setPassword(item?.password || '');
   }, [item]);
 
@@ -24,7 +26,6 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 
 
   const generatePassword = () => {
-    // Basic password generation logic
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
     let newPassword = '';
     for (let i = 0; i < 12; i++) {
@@ -38,9 +39,10 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 
     await axios.put(`http://localhost:8080/${id}`, {
       name: name,
-      site: site,
-      password: password,
+      username: username,
+      email: email,
       category: category,
+      password: password,
       lastModified: Date.now()
 
     })
@@ -76,8 +78,8 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 
         <button
           onClick={onClose}
-          aria-label="Close modal"
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+          className="text-gray-600 text-2xl hover:text-gray-800 absolute top-7 right-7"
+        >
           &times;
         </button>
 
@@ -85,7 +87,7 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 
         <div className="flex items-center mb-4">
           {item?.logo && (
-            <img src={item.logo} alt={item.title} className="w-[55px] h-10" />
+            <img src={item.logo} alt={item.title} className="w-12 h-12" />
           )}
           {/* <h2 className="text-xl font-semibold ml-2">Edit Item</h2> */}
         </div>
@@ -93,17 +95,41 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 
 
         <div className="space-y-4">
+
           <div>
             <label className="block text-sm text-gray-700">Title</label>
-
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full bg-gray-100 rounded-md p-2 mt-1"
             />
-
           </div>
+
+
+          <div>
+            <label className="block text-sm text-gray-700">Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full bg-gray-100 rounded-md p-2 mt-1"
+            />
+          </div>
+
+
+
+          <div>
+            <label className="block text-sm text-gray-700">Email</label>
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-gray-100 text-black rounded-md p-2 mt-1"
+            />
+          </div>
+
+
           <div>
             <label className="block text-sm text-gray-700">Category</label>
             <input
@@ -111,15 +137,6 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full bg-gray-100 rounded-md p-2 mt-1"
-            />
-          </div>
-          <div>
-            <label className="block text-sm text-gray-700">URL</label>
-            <input
-              type="text"
-              value={site}
-              onChange={(e) => setSite(e.target.value)}
-              className="w-full bg-gray-100 text-black rounded-md p-2 mt-1"
             />
           </div>
 
@@ -136,14 +153,14 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
               />
 
               <button
-                className="bg-gray-500 text-white px-3 py-2 rounded"
+                className="bg-gray-200 text-black px-3 py-[11px] rounded"
                 onClick={() => setIsPasswordVisible(!isPasswordVisible)}
               >
                 {isPasswordVisible ? <RxEyeOpen /> : <TbEyeClosed />}
               </button>
 
               <button
-                className="bg-blue-500 text-white px-2 py-1 rounded"
+                className="bg-blue-500 text-white px-2 py-2 rounded"
                 onClick={generatePassword}
               >
                 Generate

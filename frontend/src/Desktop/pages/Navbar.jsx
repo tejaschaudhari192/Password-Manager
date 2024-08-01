@@ -4,7 +4,7 @@ import profile from "../assets/profile.png"
 
 const Navbar = () => {
     return (
-        <div className='justify-end right-0 top-0 z-10 p-4 text-lg flex gap-4 items-center'>
+        <div className='justify-end text-black dark:text-white right-0 top-0 z-10 p-4 text-lg flex gap-4 items-center'>
 
             {useOnlineStatus() ? '🟢 Connected' : '🔴 Disconnected'}
             <img

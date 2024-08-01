@@ -113,8 +113,8 @@ const Dashboard = ({ data }) => {
     }, [healthScore]);
 
     return (
-        <div className="bg-transparent text-white p-8 min-h-screen flex flex-col items-center">
-            <div className="flex items-center mb-8">
+        <div className="text-white rounded-xl mx-36 p-8 min-h-screen flex flex-col items-center bg-orange-50 dark:bg-transparent">
+            <div className="flex items-center mb-8 dark:text-white text-black">
                 <img src={profile} alt="Profile" className="w-16 h-16 rounded-full mr-4" />
                 <div>
                     <div className="text-lg">Welcome back,</div>

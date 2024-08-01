@@ -66,7 +66,7 @@ const passwordSchema = new mongoose.Schema({
     },
     logo: {
         type: String,
-        required: false
+        default: "https://cdn-icons-png.flaticon.com/512/5339/5339184.png"
     }
 });
 

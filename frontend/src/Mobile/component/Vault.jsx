@@ -5,17 +5,28 @@ import Items from './Items'
 
 
 
-const Vault = ({ datag, setItems, setFilteredItems }) => {
+const Vault = ({ datag, setFilteredItems, items, setItems }) => {
 
   const [data, setData] = useState(datag);
+  const [categories, setCategories] = useState([])
 
   // Use useEffect to respond to prop changes if necessary
+  function getUniqueCategories(items) {
+    const uniqueCategories = [...new Set(data.map(item => item.category))];
+
+    uniqueCategories.push("All");
+    uniqueCategories.reverse();
+    return uniqueCategories;
+  }
   useEffect(() => {
     setData(datag);
-  }, [datag]); // Re-run the effect if props.data changes
+    if (items) {
+      setCategories(getUniqueCategories(items))
+    }
+  }, [datag, items]); // Re-run the effect if props.data changes
 
 
-  const [categories, setCategories] = useState(["All", "Social media", "Streaming", "Mobile", "Mobile streaming", "business", "banking"])
+  // const [categories, setCategories] = useState(["All", "Social media", "Streaming", "Mobile", "Mobile streaming", "business", "banking"])
 
 
 
