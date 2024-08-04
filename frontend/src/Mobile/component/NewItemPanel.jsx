@@ -4,7 +4,7 @@ import { RxEyeOpen } from "react-icons/rx";
 
 import axios from 'axios';
 
-function NewItemPanel({ show, onClose,setFilteredItems,setItems }) {
+function NewItemPanel({ show, onClose, setFilteredItems, setItems }) {
   const [title, setTitle] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -90,7 +90,7 @@ function NewItemPanel({ show, onClose,setFilteredItems,setItems }) {
           </div>
 
 
-          
+
 
 
           <div>

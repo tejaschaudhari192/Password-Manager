@@ -1,6 +1,5 @@
-import React from 'react'
-import mockData from '../constant/mockData'
-import { useState } from 'react'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
 
 
 export const Category = ({ item, func }) => {
@@ -12,13 +11,13 @@ export const Category = ({ item, func }) => {
 
     async function getPasswords() {
         await axios.get('http://localhost:8080/')
-          .then((response) => {
-            setItems(response.data)
-    
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+            .then((response) => {
+                setItems(response.data)
+
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     return (

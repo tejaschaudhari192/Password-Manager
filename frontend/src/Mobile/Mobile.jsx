@@ -34,7 +34,7 @@ const App = () => {
   async function getPasswords() {
     await axios.get('http://localhost:8080/')
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setItems(response.data)
         setFilteredItems(response.data)
 
@@ -47,7 +47,7 @@ const App = () => {
 
   return (
 
-    <div className="w-screen h-screen bg-[#f7f8fa]  flex flex-col relative" >
+    <div className="w-screen h-screen bg-[#f7f8fa]  flex flex-col fixed" >
 
       {/* Header rounded-b-3xl bg-[#209761] 97a7f9*/}
       <div className="bg-[#0572ec] p-3 pb-9 shadow-2xl  relative py-5 ">
@@ -63,7 +63,7 @@ const App = () => {
         {/*  Search Bar */}
         <div className='w-[94%] border-2 shadow-md border-gray-200 rounded-xl overflow-hidden flex items-center justify-between absolute mt-3'>
 
-          <input type='text' value={searchText} className='h-10 w-5/6 px-3 bg-white outline-none' placeholder='Search items'
+          <input type='text' value={searchText} className='h-10 w-5/6 px-3 bg-white outline-none' placeholder='Search'
             onChange={(e) => {
               setSearchText(e.target.value)
 
@@ -101,10 +101,10 @@ const App = () => {
 
 
       {/* Add new item */}
-      <div className="p-4 absolute bottom-12 right-2">
+      <div className="p-4 absolute bottom-5 right-2">
         <button
           onClick={handleOpenPanel}
-          className="px-4 py-2 bg-blue-500 text-white rounded shadow-lg hover:bg-blue-600"
+          className="px-4 py-2 bg-blue-500 text-white rounded-xl shadow-lg hover:bg-blue-600"
         >
           + New Item
         </button>

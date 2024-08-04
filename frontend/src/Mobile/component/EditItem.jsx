@@ -34,6 +34,30 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
     setPassword(newPassword);
   };
 
+  const handleDelete = async () => {
+    const id = item._id;
+
+    await axios.delete(`http://localhost:8080/delete/${id}`)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+    await axios.get('http://localhost:8080/')
+      .then((response) => {
+        setItems(response.data)
+        setFilteredItems(response.data)
+
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    onClose()
+
+  }
+
   const handleUpdate = async () => {
     const id = item._id;
 
@@ -53,16 +77,18 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
         console.log(error);
       })
 
+
     await axios.get('http://localhost:8080/')
       .then((response) => {
         setItems(response.data)
         setFilteredItems(response.data)
+
       })
       .catch((error) => {
         console.log(error);
       })
-    onClose();
 
+    onClose()
   }
 
 
@@ -176,6 +202,9 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
         <div className="mt-4 flex justify-between">
           <button onClick={handleUpdate} className="bg-blue-500 text-white px-4 py-2 rounded">
             Done
+          </button>
+          <button onClick={handleDelete} className="bg-red-500 text-white px-4 py-2 rounded">
+            Delete
           </button>
         </div>
 
