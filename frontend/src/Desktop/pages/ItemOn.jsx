@@ -5,6 +5,8 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import axios from 'axios'
 
 import UpdateModal from './UpdateModal'
+import { useSelector } from 'react-redux'
+import { APT_URL } from '../../../config'
 
 
 const formatDateAndCalculateDaysAgo = (dateString) => {
@@ -87,9 +89,11 @@ const PasswordItem = ({ password }) => {
     );
 };
 
-const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
+const ItemOn = ({ setData, setSelected, setRowItems }) => {
+    const currentItem = useSelector(store => store.passwords.selectedItem)
 
-    const [favorite, setFavorite] = useState(curr.isFavorite);
+
+    const [favorite, setFavorite] = useState(currentItem.isFavorite);
     const [modalShow, setModalShow] = useState(false);
     const [childModalShow, setChildModalShow] = useState(false);
 
@@ -97,10 +101,10 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
     const handleModalShow = () => setModalShow(true);
 
 
-    const handleDelete = async (curr) => {
-        const id = curr._id;
+    const handleDelete = async (currentItem) => {
+        const id = currentItem._id;
 
-        await axios.delete(`http://localhost:8080/delete/${id}`)
+        await axios.delete(APT_URL+`/delete/${id}`)
             .then((result) => {
                 console.log(result);
             })
@@ -108,7 +112,7 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
                 console.log(error);
             })
 
-        await axios.get('http://localhost:8080/')
+        await axios.get(APT_URL)
             .then((response) => {
                 setData(response.data)
                 setRowItems(response.data)
@@ -123,9 +127,9 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
 
     const handleFavorite = async () => {
         setFavorite(!favorite)
-        const id = curr._id;
+        const id = currentItem._id;
 
-        await axios.put(`http://localhost:8080/${id}`, {
+        await axios.put(APT_URL+`/${id}`, {
             isFavorite: !favorite
 
         })
@@ -138,7 +142,7 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
 
 
 
-        await axios.get('http://localhost:8080/')
+        await axios.get(APT_URL)
             .then((response) => {
 
                 setData(response.data)
@@ -154,22 +158,22 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
         <div className='bg-orange-50 border-4 dark:border-0 m-auto text-black dark:bg-[#181b2c] w-full rounded-2xl p-10'>
             <div className='flex justify-end gap-2 w-full h-8 dark:text-white'>
                 <div onClick={() => handleFavorite()}>
-                    {(curr.isFavorite == true) ?
+                    {(currentItem.isFavorite == true) ?
                         <FaStar size={30} /> :
                         <FaRegStar size={30} />
                     }
                 </div>
                 <CiEdit size={30} onClick={handleModalShow} />
-                <AiOutlineDelete size={30} onClick={() => { handleDelete(curr) }} />
+                <AiOutlineDelete size={30} onClick={() => { handleDelete(currentItem) }} />
             </div>
 
             <div className=" flex gap-4 h-16 w-[400px] p-2 rounded-xl">
 
-                <img className="w-14 h-14 rounded-xl bg-transparent" src={curr.logo}></img>
+                <img className="w-14 h-14 rounded-xl bg-transparent" src={currentItem.logo}></img>
                 <div className="flex flex-col justify-center gap-1 overflow-hidden dark:text-white">
-                    <h3 className="text-base font-bold">{curr.name}</h3>
+                    <h3 className="text-base font-bold">{currentItem.name}</h3>
                     <div className="flex">
-                        <p className="text-sm font-semibold text-nowrap opacity-55">{curr.category}</p>
+                        <p className="text-sm font-semibold text-nowrap opacity-55">{currentItem.category}</p>
                     </div>
                 </div>
             </div>
@@ -177,18 +181,18 @@ const ItemOn = ({ curr, setData, setSelected, setRowItems, data }) => {
             <button className="bg-orange-500 text-white p-2 mt-4 rounded" onClick={handleModalShow}>Update now</button>
             <div className="mt-6 flex flex-col gap-10">
 
-                <Field value={curr.site} name="Website" />
-                <Field value={curr.username} name="Username" />
-                <Field value={curr.email} name="Email" />
-                <PasswordItem password={curr.password} />
+                <Field value={currentItem.site} name="Website" />
+                <Field value={currentItem.username} name="Username" />
+                <Field value={currentItem.email} name="Email" />
+                <PasswordItem password={currentItem.password} />
 
             </div>
             <div className="mt-6 text-gray-500 text-sm">
-                Last modified : {formatDateAndCalculateDaysAgo(curr.lastModified).daysAgoText}  {formatDateAndCalculateDaysAgo(curr.lastModified).formattedDate}
+                Last modified : {formatDateAndCalculateDaysAgo(currentItem.lastModified).daysAgoText}  {formatDateAndCalculateDaysAgo(currentItem.lastModified).formattedDate}
             </div>
 
             {/* Modal */}
-            {modalShow && <UpdateModal curr={curr} handleModalClose={handleModalClose} dsetRowItems={setRowItems} setData={setData} />}
+            {modalShow && <UpdateModal currentItem={currentItem} handleModalClose={handleModalClose} setRowItems={setRowItems} setData={setData} />}
 
         </div>
     )

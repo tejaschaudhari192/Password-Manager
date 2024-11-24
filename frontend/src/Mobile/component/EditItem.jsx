@@ -37,7 +37,7 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
   const handleDelete = async () => {
     const id = item._id;
 
-    await axios.delete(`http://localhost:8080/delete/${id}`)
+    await axios.delete(APT_URL+`/delete/${id}`)
       .then((result) => {
         console.log(result);
       })
@@ -45,7 +45,7 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
         console.log(error);
       })
 
-    await axios.get('http://localhost:8080/')
+    await axios.get(APT_URL)
       .then((response) => {
         setItems(response.data)
         setFilteredItems(response.data)
@@ -61,7 +61,7 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
   const handleUpdate = async () => {
     const id = item._id;
 
-    await axios.put(`http://localhost:8080/${id}`, {
+    await axios.put(APT_URL+`/${id}`, {
       name: name,
       username: username,
       email: email,
@@ -78,7 +78,7 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
       })
 
 
-    await axios.get('http://localhost:8080/')
+    await axios.get(APT_URL)
       .then((response) => {
         setItems(response.data)
         setFilteredItems(response.data)

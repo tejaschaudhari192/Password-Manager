@@ -5,11 +5,14 @@ import ItemOn from './ItemOn';
 import Navbar from './Navbar';
 import axios from 'axios';
 import Dashboard from './Dashboard';
+import useGetData from '../hooks/useGetData';
+import { APT_URL } from '../../../config';
 
 const Homepage = () => {
     const [data, setData] = useState([])
     const [rowItems, setRowItems] = useState(data);
     const [selected, setSelected] = useState(null)
+    useGetData();
 
     useEffect(() => {
         getPasswords();
@@ -17,7 +20,7 @@ const Homepage = () => {
     }, []);
 
     async function getPasswords() {
-        await axios.get('http://localhost:8080/')
+        await axios.get(APT_URL)
             .then((response) => {
                 setData(response.data)
                 setRowItems(response.data)
@@ -38,7 +41,7 @@ const Homepage = () => {
                 <Navbar />
                 {
                     selected == null ? <Dashboard data={data} /> :
-                        <ItemOn curr={selected} setData={setData} setSelected={setSelected} setRowItems={setRowItems} data={data} />
+                        <ItemOn setData={setData} setSelected={setSelected} setRowItems={setRowItems} />
 
                 }
             </div>

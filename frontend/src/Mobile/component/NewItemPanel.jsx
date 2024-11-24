@@ -3,6 +3,7 @@ import { TbEyeClosed } from "react-icons/tb";
 import { RxEyeOpen } from "react-icons/rx";
 
 import axios from 'axios';
+import { APT_URL } from '../../../config';
 
 function NewItemPanel({ show, onClose, setFilteredItems, setItems }) {
   const [title, setTitle] = useState('');
@@ -32,11 +33,11 @@ function NewItemPanel({ show, onClose, setFilteredItems, setItems }) {
       password: password
     }
     console.log(item);
-    await axios.post('http://localhost:8080/', item).then((response) => {
+    await axios.post(APT_URL, item).then((response) => {
       // console.log(response);
     })
 
-    await axios.get('http://localhost:8080/')
+    await axios.get(APT_URL)
       .then((response) => {
         setItems(response.data)
         setFilteredItems(response.data)

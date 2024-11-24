@@ -32,7 +32,7 @@ const App = () => {
   }, [])
 
   async function getPasswords() {
-    await axios.get('http://localhost:8080/')
+    await axios.get(APT_URL)
       .then((response) => {
         // console.log(response.data);
         setItems(response.data)

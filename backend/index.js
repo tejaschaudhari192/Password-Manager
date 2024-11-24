@@ -11,9 +11,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 app.use(cors({
-    origin: 'http://localhost:5000/',
+    origin: '*',
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-    credentials: true,
 }));
 
 mongoose.connect(DB_URL)
@@ -91,7 +90,6 @@ app.route('/')
                 console.log(err);
             })
     })
-    .post()
 
 app.route('/delete/:id')
     .delete(async (req, res) => {

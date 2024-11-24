@@ -10,7 +10,7 @@ export const Category = ({ item, func }) => {
     }, [])
 
     async function getPasswords() {
-        await axios.get('http://localhost:8080/')
+        await axios.get(APT_URL)
             .then((response) => {
                 setItems(response.data)
 

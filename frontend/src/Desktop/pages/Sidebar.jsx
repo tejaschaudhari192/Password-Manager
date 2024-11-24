@@ -6,6 +6,12 @@ import { items } from './items';
 import axios from 'axios';
 import generatePassword from './PasswordGenerator';
 import Modal from './Modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategory, setPasswordItems } from '../utils/passwordSlice';
+import useSound from 'use-sound';
+
+import tapp from '../assets/tap.wav'
+import { APT_URL } from '../../../config';
 
 const getElementsOfCategories = (data, categories) => {
     return data.filter(item => categories.includes(item.category));
@@ -31,16 +37,31 @@ function SideItem({ data, icon, title, func, isf }) {
     </div>
 }
 
-function SideCategory({ data, title, icon, cat, func }) {
+function SideCategory({ data, title, cat, func }) {
+    const [tap] = useSound(tapp);
+    const dispatch = useDispatch();
+    
+    const handleSetCategory = () => {
+        dispatch(setCategory(cat))
+    }
     return <div className='flex items-center'>
-        <div className='flex items-center gap-3 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200' onClick={() => { func(getElementsOfCategories(data, cat)) }}>
-            <span>{icon}</span>
+        <div className='flex items-center gap-3 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200'
+            onClick={() => {
+                func(getElementsOfCategories(data, cat))
+                handleSetCategory(cat)
+                tap()
+            }}
+        >
+            <span>•</span>
             <span>{title}</span>
         </div>
     </div>
 }
 
 const Sidebar = ({ data, curr, setRowItems }) => {
+    const passwords = useSelector(store => store.passwords.passwords)
+    const dispatch = useDispatch();
+
     const [modalShow, setModalShow] = useState(false);
 
     const handleModalClose = () => setModalShow(false);
@@ -62,13 +83,14 @@ const Sidebar = ({ data, curr, setRowItems }) => {
             password: itemPassword,
             category: itemCategory
         };
-        await axios.post('http://localhost:8080/', item).then((response) => {
+        await axios.post(APT_URL', item).then((response) => {
             console.log(response);
         });
 
-        await axios.get('http://localhost:8080/')
+        await axios.get(APT_URL)
             .then((response) => {
-                setData(response.data)
+                // setData(response.data)
+                dispatch(setPasswordItems(response.data))
                 setRowItems(response.data)
             })
             .catch((error) => {
@@ -92,13 +114,12 @@ const Sidebar = ({ data, curr, setRowItems }) => {
                 {/* Categories */}
                 <div className="mt-9">
                     <p className="m-3 p-2 text-lg font-semibold">Categories</p>
-                    <div className='flex items-center'>
-                        <div className='flex items-center gap-3 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200' onClick={() => { func(getElementsOfCategories(data, cat)) }}>
-                            <span>•</span>
-                            <span>All</span>
+                    {/* <div className='flex items-center' >
+                        <div className='flex items-center gap-3 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200' onClick={() => { setRowItems(data) }}>
+                            <span>•</span><span>All</span>
                         </div>
-                    </div>
-                    {getCategories(data).map((category, index) => {
+                    </div> */}
+                    {getCategories(passwords).map((category, index) => {
                         return <SideCategory data={data} icon="•" title={category} key={index} cat={category} func={curr} />
                     })}
                 </div>

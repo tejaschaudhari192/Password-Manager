@@ -1,20 +1,38 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import generatePassword from './PasswordGenerator';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPasswordItems } from '../utils/passwordSlice';
 
-const UpdateModal = ({ curr, handleModalClose, setData, setRowItems }) => {
-    const [itemName, setItemName] = useState(curr.name);
-    const [itemPassword, setItemPassword] = useState(curr.password);
-    const [itemEmail, setItemEmail] = useState(curr.email);
-    const [itemUsername, setItemUsername] = useState(curr.username);
-    const [itemUrl, setItemUrl] = useState(curr.site);
-    const [itemCategory, setItemCategory] = useState(curr.category);
+const UpdateModal = ({ handleModalClose }) => {
+    const dispatch = useDispatch();
+
+
+    const [itemName, setItemName] = useState("");
+    const [itemPassword, setItemPassword] = useState("");
+    const [itemEmail, setItemEmail] = useState("");
+    const [itemUsername, setItemUsername] = useState("");
+    const [itemUrl, setItemUrl] = useState("");
+    const [itemCategory, setItemCategory] = useState("");
+
+    const selectedItem = useSelector(store => store.passwords.selectedItem)
+
+    useEffect(() => {
+        setItemName(selectedItem.name)
+        setItemPassword(selectedItem.password)
+        setItemEmail(selectedItem.email)
+        setItemUsername(selectedItem.username)
+        setItemUrl(selectedItem.site)
+        setItemCategory(selectedItem.category)
+    }, [selectedItem])
+
+
 
 
     const handelUpdate = async () => {
-        const id = curr._id;
+        const id = selectedItem._id;
 
-        await axios.put(`http://localhost:8080/${id}`, {
+        await axios.put(APT_URL+`/${id}`, {
             name: itemName,
             site: itemUrl,
             email: itemEmail,
@@ -31,10 +49,10 @@ const UpdateModal = ({ curr, handleModalClose, setData, setRowItems }) => {
                 console.log(error);
             })
 
-        await axios.get('http://localhost:8080/')
+        await axios.get(APT_URL)
             .then((response) => {
-                setData(response.data)
-                setRowItems(response.data)
+                dispatch(setPasswordItems(response.data))
+                // setRowItems(response.data)
             })
             .catch((error) => {
                 console.log(error);
