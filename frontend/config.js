@@ -1,1 +1,1 @@
-export const APT_URL='http://localhost:8080'
+export const APT_URL='https://password-manager-git-master-tejaschaudhari192s-projects.vercel.app/'
