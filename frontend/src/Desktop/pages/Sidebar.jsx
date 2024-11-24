@@ -83,7 +83,7 @@ const Sidebar = ({ data, curr, setRowItems }) => {
             password: itemPassword,
             category: itemCategory
         };
-        await axios.post(APT_URL', item).then((response) => {
+        await axios.post(APT_URL, item).then((response) => {
             console.log(response);
         });
 
