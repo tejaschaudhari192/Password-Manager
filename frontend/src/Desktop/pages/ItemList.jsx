@@ -4,19 +4,19 @@ import './homepage.css'
 import { CiSearch } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
 import { setItem } from '../utils/passwordSlice';
-import tapp from '../assets/tap.wav'
-import useSound from 'use-sound';
+// import tapp from '../assets/tap.wav'
+// import useSound from 'use-sound';
 
 const Item = ({ item, func }) => {
     const dispatch = useDispatch();
-    const [tap] = useSound(tapp);
+    // const [tap] = useSound(tapp);
     // console.log(item.name);
     return (
         <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl hover:bg-gray-300 dark:hover:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer"
             onClick={() => {
                 func(item)
                 dispatch(setItem(item))
-                tap()
+                // tap()
             }}>
             {item.isFavorite ? <div className='absolute right-1 text-xs'>⭐</div> : ''}
 

@@ -8,9 +8,9 @@ import generatePassword from './PasswordGenerator';
 import Modal from './Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory, setPasswordItems } from '../utils/passwordSlice';
-import useSound from 'use-sound';
+// import useSound from 'use-sound';
 
-import tapp from '../assets/tap.wav'
+// import tapp from '../assets/tap.wav'
 import { APT_URL } from '../../../config';
 
 const getElementsOfCategories = (data, categories) => {
