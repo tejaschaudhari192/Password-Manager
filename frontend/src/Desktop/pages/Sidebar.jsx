@@ -38,7 +38,7 @@ function SideItem({ data, icon, title, func, isf }) {
 }
 
 function SideCategory({ data, title, cat, func }) {
-    const [tap] = useSound(tapp);
+    // const [tap] = useSound(tapp);
     const dispatch = useDispatch();
     
     const handleSetCategory = () => {
@@ -49,7 +49,7 @@ function SideCategory({ data, title, cat, func }) {
             onClick={() => {
                 func(getElementsOfCategories(data, cat))
                 handleSetCategory(cat)
-                tap()
+                // tap()
             }}
         >
             <span>•</span>
