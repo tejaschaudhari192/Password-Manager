@@ -4,6 +4,7 @@ import { TbEyeClosed } from "react-icons/tb";
 import { RxEyeOpen } from "react-icons/rx";
 import './EditItem.css'; // Import the CSS for animations
 import axios from 'axios';
+import { APT_URL } from '../../../config';
 
 function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { APT_URL } from '../../../config';
 
 
 export const Category = ({ item, func }) => {

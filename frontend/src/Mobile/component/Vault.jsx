@@ -47,9 +47,6 @@ const Vault = ({ datag, setFilteredItems, items, setItems }) => {
           )
         }
       </div>
-
-
-
     </div>
   )
 }
