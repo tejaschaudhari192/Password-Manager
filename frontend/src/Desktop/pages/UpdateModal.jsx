@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import generatePassword from './PasswordGenerator';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPasswordItems } from '../utils/passwordSlice';
+import { APT_URL } from '../../../config';
 
 const UpdateModal = ({ handleModalClose }) => {
     const dispatch = useDispatch();
