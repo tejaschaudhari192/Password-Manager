@@ -7,11 +7,14 @@ import axios from 'axios';
 import Dashboard from './Dashboard';
 import useGetData from '../hooks/useGetData';
 import { APT_URL } from '../../../config';
+import { useSelector } from 'react-redux';
 
 const Homepage = () => {
     const [data, setData] = useState([])
     const [rowItems, setRowItems] = useState(data);
     const [selected, setSelected] = useState(null)
+    const selectedItem = useSelector(store => store.passwords.selectedItem)
+
     useGetData();
 
     useEffect(() => {
@@ -40,7 +43,7 @@ const Homepage = () => {
             <div className='flex flex-col w-full h-full overflow-clip '>
                 <Navbar />
                 {
-                    selected == null ? <Dashboard data={data} /> :
+                    selectedItem == null ? <Dashboard data={data} /> :
                         <ItemOn setData={setData} setSelected={setSelected} setRowItems={setRowItems} />
 
                 }

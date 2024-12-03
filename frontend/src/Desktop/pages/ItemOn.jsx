@@ -5,8 +5,9 @@ import { AiOutlineDelete } from 'react-icons/ai'
 import axios from 'axios'
 
 import UpdateModal from './UpdateModal'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { APT_URL } from '../../../config'
+import { setItem } from '../utils/passwordSlice'
 
 
 const formatDateAndCalculateDaysAgo = (dateString) => {
@@ -91,6 +92,7 @@ const PasswordItem = ({ password }) => {
 
 const ItemOn = ({ setData, setSelected, setRowItems }) => {
     const currentItem = useSelector(store => store.passwords.selectedItem)
+    const dispatch = useDispatch();
 
 
     const [favorite, setFavorite] = useState(currentItem.isFavorite);
@@ -104,7 +106,7 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
     const handleDelete = async (currentItem) => {
         const id = currentItem._id;
 
-        await axios.delete(APT_URL+`/delete/${id}`)
+        await axios.delete(APT_URL + `/delete/${id}`)
             .then((result) => {
                 console.log(result);
             })
@@ -129,7 +131,7 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
         setFavorite(!favorite)
         const id = currentItem._id;
 
-        await axios.put(APT_URL+`/${id}`, {
+        await axios.put(APT_URL + `/${id}`, {
             isFavorite: !favorite
 
         })
@@ -156,6 +158,7 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
 
     return (
         <div className='bg-orange-50 border-4 dark:border-0 m-auto text-black dark:bg-[#181b2c] w-full rounded-2xl p-10'>
+            <button className="bg-red-500 text-white p-2 mt-4 rounded absolute right-5 top-16" onClick={() => {dispatch(setItem(null))}}>Close</button>
             <div className='flex justify-end gap-2 w-full h-8 dark:text-white'>
                 <div onClick={() => handleFavorite()}>
                     {(currentItem.isFavorite == true) ?
@@ -166,6 +169,7 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
                 <CiEdit size={30} onClick={handleModalShow} />
                 <AiOutlineDelete size={30} onClick={() => { handleDelete(currentItem) }} />
             </div>
+
 
             <div className=" flex gap-4 h-16 w-[400px] p-2 rounded-xl">
 
