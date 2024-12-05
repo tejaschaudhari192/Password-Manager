@@ -9,18 +9,12 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.options('*', cors());
+// app.options('*', cors());
 
-app.use((req, res) => {
-    console.log(`Request Method: ${req.method}, URL: ${req.url}`);
-});
-
-
-// app.use(cors({
-//     origin: '*',
-//     methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-//     credentials:true
-// }))
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
+}))
 
 app.use('/api/auth', authRoutes);
 app.use('/api/passwords', passwordRoutes);
