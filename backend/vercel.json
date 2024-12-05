@@ -23,9 +23,12 @@
         "PATCH",
         "OPTIONS"
       ],
-      "headers": {
-        "Access-Control-Allow-Origin": "*"
-      }
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
     }
   ]
 }
