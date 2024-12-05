@@ -9,15 +9,27 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', 'https://password-manager-qaiv.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    if (req.method === 'OPTIONS') {
+        return res.status(204).end(); // Respond to preflight
+    }
+    next();
+});
+
 app.use(express.json());
 // app.options('*', cors());
 app.use(bodyParser.json());
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization']
-}))
+// app.use(cors({
+//     origin: '*',
+//     methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
+//     credentials: true,
+//     allowedHeaders: ['Content-Type', 'Authorization']
+// }))
 
 app.use('/api/auth', authRoutes);
 app.use('/api/passwords', passwordRoutes);

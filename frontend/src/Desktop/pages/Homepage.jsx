@@ -11,12 +11,15 @@ import { useSelector } from 'react-redux';
 
 const Homepage = () => {
     const [data, setData] = useState([])
-    const [rowItems, setRowItems] = useState(data);
-    const [selected, setSelected] = useState(null)
+    const passwords = useSelector(store => store.passwords.passwords)
     const selectedItem = useSelector(store => store.passwords.selectedItem)
 
     useGetData();
     console.log(useSelector(store => store.passwords.rowItems));
+
+    useEffect(() => {
+        setData(passwords)
+    }, [passwords, selectedItem])
 
 
     return <div className='flex w-full h-full '>

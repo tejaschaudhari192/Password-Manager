@@ -46,7 +46,6 @@ const calculateHealthScore = (weakPasswords, reusedPasswords, totalPasswords) =>
 };
 
 const Dashboard = ({ data }) => {
-    const passwords = useSelector(store=>store.passwords)
     const totalPasswords = data.length;
     const strongPasswords = data.filter(item => isStrongPassword(item.password)).length;
     const weakPasswords = totalPasswords - strongPasswords;

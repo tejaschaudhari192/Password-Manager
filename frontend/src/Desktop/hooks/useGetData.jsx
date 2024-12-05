@@ -18,7 +18,7 @@ const useGetData = () => {
 
     useEffect(() => {
         bolav()
-    })
+    }, [])
 
 }
 
