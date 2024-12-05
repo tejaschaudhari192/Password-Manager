@@ -14,7 +14,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors({
     origin: '*',
-    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH']
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }))
 
 app.use('/api/auth', authRoutes);
