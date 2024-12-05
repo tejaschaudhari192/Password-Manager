@@ -1,3 +1,5 @@
+import tailwindcss_no_scrollbar from "tailwindcss-no-scrollbar";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -8,6 +10,6 @@ export default {
     extend: {},
   },
   plugins: [
-    require('tailwindcss-no-scrollbar')
+    tailwindcss_no_scrollbar
   ],
 }
