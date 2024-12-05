@@ -1,6 +1,7 @@
 import ApexCharts from 'apexcharts'
 import { useEffect } from 'react';
 import profile from "../assets/profile.png"
+import { useSelector } from 'react-redux';
 
 const isStrongPassword = (password) => {
     const lengthCriteria = password.length >= 8;
@@ -45,6 +46,7 @@ const calculateHealthScore = (weakPasswords, reusedPasswords, totalPasswords) =>
 };
 
 const Dashboard = ({ data }) => {
+    const passwords = useSelector(store=>store.passwords)
     const totalPasswords = data.length;
     const strongPasswords = data.filter(item => isStrongPassword(item.password)).length;
     const weakPasswords = totalPasswords - strongPasswords;

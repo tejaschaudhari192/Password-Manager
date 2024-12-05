@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { CiEdit, CiStar } from 'react-icons/ci'
-import { FaEye, FaEyeSlash, FaRegClipboard, FaRegEdit, FaRegStar, FaStar } from 'react-icons/fa'
+import { FaEdit, FaEye, FaEyeSlash, FaRegClipboard, FaRegEdit, FaRegStar, FaStar } from 'react-icons/fa'
 import { AiOutlineDelete } from 'react-icons/ai'
 import axios from 'axios'
 
 import UpdateModal from './UpdateModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { APT_URL } from '../../../config'
-import { setItem } from '../utils/passwordSlice'
+import { setItem, setPasswordItems, setStatus } from '../utils/passwordSlice'
+import { deletePassword, getPasswords } from '../services/api'
+import { useAuth } from '../context/AuthContext'
+import useGetData from '../hooks/useGetData'
 
 
 const formatDateAndCalculateDaysAgo = (dateString) => {
@@ -93,7 +96,7 @@ const PasswordItem = ({ password }) => {
 const ItemOn = ({ setData, setSelected, setRowItems }) => {
     const currentItem = useSelector(store => store.passwords.selectedItem)
     const dispatch = useDispatch();
-
+    const { user } = useAuth();
 
     const [favorite, setFavorite] = useState(currentItem.isFavorite);
     const [modalShow, setModalShow] = useState(false);
@@ -103,71 +106,60 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
     const handleModalShow = () => setModalShow(true);
 
 
-    const handleDelete = async (currentItem) => {
+    const handleDelete = async () => {
+        dispatch(setStatus("Updating"));
+
         const id = currentItem._id;
+        console.log(id);
+        deletePassword(id, user.token)
+        const result = await getPasswords(user.token);
 
-        await axios.delete(APT_URL + `/delete/${id}`)
-            .then((result) => {
-                console.log(result);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
-        await axios.get(APT_URL)
-            .then((response) => {
-                setData(response.data)
-                setRowItems(response.data)
-
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
+        dispatch(setPasswordItems(await result.data));
+        dispatch(setStatus("Connected"));
     }
 
 
-    const handleFavorite = async () => {
-        setFavorite(!favorite)
-        const id = currentItem._id;
+    // const handleFavorite = async () => {
+    //     setFavorite(!favorite)
+    //     const id = currentItem._id;
 
-        await axios.put(APT_URL + `/${id}`, {
-            isFavorite: !favorite
+    //     await axios.put(APT_URL + `/${id}`, {
+    //         isFavorite: !favorite
 
-        })
-            .then((result) => {
-                console.log(result);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+    //     })
+    //         .then((result) => {
+    //             console.log(result);
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
 
 
 
-        await axios.get(APT_URL)
-            .then((response) => {
+    //     await axios.get(APT_URL)
+    //         .then((response) => {
 
-                setData(response.data)
-                setRowItems(response.data)
+    //             setData(response.data)
+    //             setRowItems(response.data)
 
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         })
+    // }
 
     return (
-        <div className='bg-orange-50 border-4 dark:border-0 m-auto text-black dark:bg-[#181b2c] w-full rounded-2xl p-10'>
-            <button className="bg-red-500 text-white p-2 mt-4 rounded absolute right-5 top-16" onClick={() => {dispatch(setItem(null))}}>Close</button>
+        <div className='bg-orange-50 border-4 dark:border-0 my-auto text-black dark:bg-[#181b2c] w-full rounded-2xl p-10'>
+            <button className="bg-red-500 text-white p-2 mt-4 rounded absolute right-5 top-16" onClick={() => { dispatch(setItem(null)) }}>Close</button>
             <div className='flex justify-end gap-2 w-full h-8 dark:text-white'>
-                <div onClick={() => handleFavorite()}>
+                {/* <div onClick={() => handleFavorite()}>
                     {(currentItem.isFavorite == true) ?
                         <FaStar size={30} /> :
                         <FaRegStar size={30} />
                     }
-                </div>
-                <CiEdit size={30} onClick={handleModalShow} />
-                <AiOutlineDelete size={30} onClick={() => { handleDelete(currentItem) }} />
+                </div> */}
+                <FaEdit className='cursor-pointer' size={30} onClick={handleModalShow} />
+                <AiOutlineDelete className='cursor-pointer' size={30} onClick={() => { handleDelete(currentItem) }} />
             </div>
 
 

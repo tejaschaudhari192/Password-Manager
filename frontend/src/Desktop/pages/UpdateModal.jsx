@@ -2,11 +2,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import generatePassword from './PasswordGenerator';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPasswordItems } from '../utils/passwordSlice';
+import { setPasswordItems, setStatus } from '../utils/passwordSlice';
 import { APT_URL } from '../../../config';
+import { getPasswords, updatePassword } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const UpdateModal = ({ handleModalClose }) => {
     const dispatch = useDispatch();
+    const { user } = useAuth();
 
 
     const [itemName, setItemName] = useState("");
@@ -27,13 +30,13 @@ const UpdateModal = ({ handleModalClose }) => {
         setItemCategory(selectedItem.category)
     }, [selectedItem])
 
-
-
-
     const handelUpdate = async () => {
+        dispatch(setStatus("Updating"));
+
         const id = selectedItem._id;
 
-        await axios.put(APT_URL+`/${id}`, {
+        updatePassword({
+            id: id,
             name: itemName,
             site: itemUrl,
             email: itemEmail,
@@ -41,25 +44,13 @@ const UpdateModal = ({ handleModalClose }) => {
             password: itemPassword,
             category: itemCategory,
             lastModified: Date.now()
+        }, user.token)
 
-        })
-            .then((result) => {
-                console.log(result);
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
-        await axios.get(APT_URL)
-            .then((response) => {
-                dispatch(setPasswordItems(response.data))
-                // setRowItems(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            })
         handleModalClose();
+        const response = await getPasswords(user.token);
 
+        dispatch(setPasswordItems(await response.data));
+        dispatch(setStatus("Connected"));
     }
 
 

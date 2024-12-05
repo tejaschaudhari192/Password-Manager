@@ -1,5 +1,5 @@
 // Sidebar.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import icon from '../assets/icon.svg'
 import './homepage.css'
 import { items } from './items';
@@ -7,11 +7,9 @@ import axios from 'axios';
 import generatePassword from './PasswordGenerator';
 import Modal from './Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCategory, setPasswordItems } from '../utils/passwordSlice';
-// import useSound from 'use-sound';
-
-// import tapp from '../assets/tap.wav'
-import { APT_URL } from '../../../config';
+import { setCategory, setPasswordItems, setRowItems, setStatus } from '../utils/passwordSlice';
+import { addPassword, getPasswords } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const getElementsOfCategories = (data, categories) => {
     return data.filter(item => categories.includes(item.category));
@@ -25,8 +23,9 @@ const getElementsOfType = (data, type) => {
     return data.filter(item => item.type === type);
 };
 
-function getCategories(data) {
-    const uniqueCategories = [...new Set(data.map(item => item.category))];
+function getCategories(passwords) {
+    // console.log(passwords);
+    const uniqueCategories = [...new Set(passwords.map(item => item.category))];
     return uniqueCategories;
 }
 
@@ -37,30 +36,27 @@ function SideItem({ data, icon, title, func, isf }) {
     </div>
 }
 
-function SideCategory({ data, title, cat, func }) {
-    // const [tap] = useSound(tapp);
+function SideCategory({ data, category }) {
     const dispatch = useDispatch();
-    
-    const handleSetCategory = () => {
-        dispatch(setCategory(cat))
-    }
+
     return <div className='flex items-center'>
         <div className='flex items-center gap-3 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200'
             onClick={() => {
-                func(getElementsOfCategories(data, cat))
-                handleSetCategory(cat)
-                // tap()
+                dispatch(setCategory(category))
             }}
         >
             <span>•</span>
-            <span>{title}</span>
+            <span>{category}</span>
         </div>
     </div>
 }
 
-const Sidebar = ({ data, curr, setRowItems }) => {
+const Sidebar = () => {
     const passwords = useSelector(store => store.passwords.passwords)
     const dispatch = useDispatch();
+
+    const { user } = useAuth();
+
 
     const [modalShow, setModalShow] = useState(false);
 
@@ -74,7 +70,11 @@ const Sidebar = ({ data, curr, setRowItems }) => {
     const [itemUrl, setItemUrl] = useState();
     const [itemCategory, setItemCategory] = useState();
 
+
     const saveItem = async () => {
+        dispatch(setStatus("Updating"));
+        handleModalClose();
+
         const item = {
             name: itemName,
             site: itemUrl,
@@ -83,21 +83,14 @@ const Sidebar = ({ data, curr, setRowItems }) => {
             password: itemPassword,
             category: itemCategory
         };
-        await axios.post(APT_URL, item).then((response) => {
-            console.log(response);
-        });
+        addPassword(item, user.token);
 
-        await axios.get(APT_URL)
-            .then((response) => {
-                // setData(response.data)
-                dispatch(setPasswordItems(response.data))
-                setRowItems(response.data)
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        handleModalClose();
+        const result = await getPasswords(user.token);
+        dispatch(setPasswordItems(await result.data));
+        dispatch(setStatus("Connected"));
     };
+
+
 
     return (
         <aside className="border-r-2 dark:border-0 border-gray-300 bg-[#262835] h-full text-white w-96 p-8 flex flex-col transition-all duration-300">
@@ -106,22 +99,26 @@ const Sidebar = ({ data, curr, setRowItems }) => {
                 <span className="text-2xl font-bold">Vault</span>
             </div>
             <nav className="flex-1 transition-all duration-200">
-                <SideItem icon="🏠" title="Logins" isf={false} func={curr} />
-                <SideItem icon="💳" title="Credit Cards" isf={false} func={curr} />
-                <SideItem icon="📝" title="Notes" isf={false} func={curr} />
-                <SideItem icon="⭐" title="Favorites" isf={true} func={curr} data={data} />
+                <SideItem icon="🏠" title="Logins" isf={false} />
+                <SideItem icon="💳" title="Credit Cards" isf={false} />
+                <SideItem icon="📝" title="Notes" isf={false} />
+                <SideItem icon="⭐" title="Favorites" isf={true} data={passwords} />
 
                 {/* Categories */}
                 <div className="mt-9">
                     <p className="m-3 p-2 text-lg font-semibold">Categories</p>
-                    {/* <div className='flex items-center' >
-                        <div className='flex items-center gap-3 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200' onClick={() => { setRowItems(data) }}>
+                    <div className='flex items-center' >
+                        <div
+                            className='flex items-center gap-3 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200'
+                            onClick={() => { dispatch(setCategory(null)) }}
+                        >
                             <span>•</span><span>All</span>
                         </div>
-                    </div> */}
-                    {getCategories(passwords).map((category, index) => {
-                        return <SideCategory data={data} icon="•" title={category} key={index} cat={category} func={curr} />
-                    })}
+                    </div>
+
+                    {!passwords ? getCategories(passwords).map((category, index) => {
+                        return <SideCategory icon="•" key={index} category={category} />
+                    }) : ('')}
                 </div>
             </nav>
 
