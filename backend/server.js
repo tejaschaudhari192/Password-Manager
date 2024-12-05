@@ -24,12 +24,12 @@ app.use((req, res, next) => {
 app.use(express.json());
 // app.options('*', cors());
 app.use(bodyParser.json());
-// app.use(cors({
-//     origin: '*',
-//     methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-//     credentials: true,
-//     allowedHeaders: ['Content-Type', 'Authorization']
-// }))
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
 
 app.use('/api/auth', authRoutes);
 app.use('/api/passwords', passwordRoutes);
