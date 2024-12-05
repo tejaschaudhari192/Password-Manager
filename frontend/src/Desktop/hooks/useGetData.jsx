@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setPasswordItems } from '../utils/passwordSlice';
+import { setPasswordItems, setStatus } from '../utils/passwordSlice';
 import { API_URL } from '../../../config';
 import { getPasswords } from '../services/api';
 import { useAuth } from '../context/AuthContext';

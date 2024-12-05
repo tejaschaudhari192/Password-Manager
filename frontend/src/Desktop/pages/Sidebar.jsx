@@ -116,7 +116,7 @@ const Sidebar = () => {
                         </div>
                     </div>
 
-                    {!passwords ? getCategories(passwords).map((category, index) => {
+                    {passwords ? getCategories(passwords).map((category, index) => {
                         return <SideCategory icon="•" key={index} category={category} />
                     }) : ('')}
                 </div>

@@ -111,7 +111,7 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
 
         const id = currentItem._id;
         console.log(id);
-        deletePassword(id, user.token)
+        await deletePassword(id, user.token)
         const result = await getPasswords(user.token);
 
         dispatch(setPasswordItems(await result.data));

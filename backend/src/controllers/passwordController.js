@@ -5,9 +5,9 @@ exports.getPasswords = async (req, res) => {
 
 	try {
 		const passwords = await Password.find({ userId: req.user.id });
-		res.json(passwords);
+		return res.status(201).json(passwords);
 	} catch (error) {
-		res.status(500).json({ message: error.message });
+		return res.status(500).json({ message: error.message });
 	}
 };
 
@@ -28,9 +28,9 @@ exports.createPassword = async (req, res) => {
 			isFavorite,
 		});
 
-		res.status(201).json(newPassword);
+		return res.status(201).json(newPassword);
 	} catch (error) {
-		res.status(500).json({ message: error.message });
+		return res.status(500).json({ message: error.message });
 	}
 };
 
@@ -40,10 +40,10 @@ exports.updatePassword = async (req, res) => {
 	const { id, name, site, username, email, password, category, notes, isFavorite } = req.body;
 	console.log('updating...');
 
-	const updatedPassword = Password.findByIdAndUpdate(id, { name, site, username, email, password, category, notes, isFavorite }, { new: true, runValidators: true })
+	return Password.findByIdAndUpdate(id, { name, site, username, email, password, category, notes, isFavorite }, { new: true, runValidators: true })
 		.then((result) => {
 			// console.log(result);
-			return res.status(201);
+			return res.status(201).json(result);
 		})
 		.catch((error) => {
 			// console.log(error);
@@ -58,7 +58,7 @@ exports.deletePassword = async (req, res) => {
 	return Password.findByIdAndDelete(id)
 		.then((result) => {
 			// console.log(result);
-			return res.status(201);
+			return res.status(201).json(result);
 		})
 		.catch((error) => {
 			// console.log(error);

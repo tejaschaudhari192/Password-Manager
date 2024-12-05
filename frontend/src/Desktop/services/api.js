@@ -8,15 +8,22 @@ const API = axios.create({
 
 export const register = (userData) => API.post("/auth/register", userData);
 export const login = (userData) => API.post("/auth/login", userData);
-export const getPasswords = (token) => API.get("/passwords", { headers: { Authorization: `Bearer ${token}` } });
 
+export const getPasswords = (token) => {
+    API.get("/passwords", { headers: { Authorization: `Bearer ${token}` } })
+        .then(result => {
+            return result
+        }).catch(error => {
+            return error
+        });
+}
 export const addPassword = (passwordData, token) => {
     API.post("/passwords", passwordData, {
         headers: { Authorization: `Bearer ${token}` },
     }).then(result => {
-        console.log(result);
+        return result
     }).catch((error) => {
-        console.log(error);
+        return error
     })
 }
 
@@ -40,8 +47,10 @@ export const deletePassword = (id, token) => {
             params: { id }
         },
     ).then(result => {
-        console.log(result);
+        // console.log(result);
+        return result
     }).catch((error) => {
-        console.log(error);
+        // console.log(error);
+        return error
     })
 }
