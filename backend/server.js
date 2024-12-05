@@ -11,6 +11,11 @@ const app = express();
 app.use(express.json());
 app.options('*', cors());
 
+app.use((req, res) => {
+    console.log(`Request Method: ${req.method}, URL: ${req.url}`);
+});
+
+
 // app.use(cors({
 //     origin: '*',
 //     methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
