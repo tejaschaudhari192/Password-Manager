@@ -7,7 +7,7 @@ import axios from 'axios'
 import UpdateModal from './UpdateModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { APT_URL } from '../../../config'
-import { setItem, setPasswordItems, setStatus } from '../utils/passwordSlice'
+import { setCategory, setItem, setItemClose, setPasswordItems, setStatus } from '../utils/passwordSlice'
 import { deletePassword, getPasswords } from '../services/api'
 import { useAuth } from '../context/AuthContext'
 import useGetData from '../hooks/useGetData'
@@ -109,9 +109,11 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
     const handleDelete = async () => {
         dispatch(setStatus("Updating"));
 
-        const id = currentItem._id;
-        console.log(id);
+        const id = await currentItem._id;
+        // console.log(id);
         await deletePassword(id, user.token)
+        await dispatch(setItemClose())
+
         const result = await getPasswords(user.token);
 
         dispatch(setPasswordItems(await result.data));

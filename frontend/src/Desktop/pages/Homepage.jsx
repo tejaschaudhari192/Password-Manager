@@ -13,9 +13,10 @@ const Homepage = () => {
     const [data, setData] = useState([])
     const passwords = useSelector(store => store.passwords.passwords)
     const selectedItem = useSelector(store => store.passwords.selectedItem)
+    // console.log(selectedItem);
+    const itemClose = useSelector(store => store.passwords.itemClose)
 
     useGetData();
-    console.log(useSelector(store => store.passwords.rowItems));
 
     useEffect(() => {
         setData(passwords)
@@ -31,7 +32,7 @@ const Homepage = () => {
             <div className='flex flex-col w-full h-full overflow-clip '>
                 <Navbar />
                 {
-                    selectedItem == null ? <Dashboard data={data} /> :
+                    selectedItem == null || itemClose ? <Dashboard data={data} /> :
                         <ItemOn />
 
                 }

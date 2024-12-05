@@ -12,7 +12,7 @@ import Register from './pages/Register';
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
   console.log(user);
-  
+
   return user ? children : <Navigate to="/login" />;
 };
 

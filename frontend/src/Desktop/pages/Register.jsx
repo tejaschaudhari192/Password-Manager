@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import { register } from "../services/api";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const { login: loginUser } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -10,8 +15,10 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await register(formData);
+      const { data } = await register(formData);
+      await loginUser(data)
       alert("Registration Successful");
+      navigate('/')
     } catch (error) {
       alert(error);
     }
@@ -32,6 +39,7 @@ const Register = () => {
                 id="name"
                 className="w-full p-3 mt-1 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Enter your name"
+                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
               />
             </div>
             <div>
@@ -43,6 +51,7 @@ const Register = () => {
                 id="email"
                 className="w-full p-3 mt-1 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Enter your email"
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
             <div>
@@ -54,6 +63,7 @@ const Register = () => {
                 id="password"
                 className="w-full p-3 mt-1 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="Create a password"
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               />
             </div>
           </div>

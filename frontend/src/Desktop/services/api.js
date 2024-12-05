@@ -17,8 +17,8 @@ export const getPasswords = (token) => {
             return error
         });
 }
-export const addPassword = (passwordData, token) => {
-    API.post("/passwords", passwordData, {
+export const addPassword = async (passwordData, token) => {
+    return API.post("/passwords", passwordData, {
         headers: { Authorization: `Bearer ${token}` },
     }).then(result => {
         return result
@@ -27,8 +27,8 @@ export const addPassword = (passwordData, token) => {
     })
 }
 
-export const updatePassword = (passwordData, token) => {
-    API.put("/passwords", passwordData, {
+export const updatePassword = async (passwordData, token) => {
+    return API.put("/passwords", passwordData, {
         headers: { Authorization: `Bearer ${token}` },
     }).then(result => {
         console.log(result);
@@ -37,10 +37,10 @@ export const updatePassword = (passwordData, token) => {
     })
 }
 
-export const deletePassword = (id, token) => {
+export const deletePassword = async (id, token) => {
     // console.log(token);
 
-    API.delete(
+    return API.delete(
         `/passwords`,
         {
             headers: { Authorization: `Bearer ${token}` },

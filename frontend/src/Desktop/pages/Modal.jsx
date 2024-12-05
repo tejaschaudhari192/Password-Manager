@@ -16,6 +16,15 @@ const Modal = ({
 }) => {
     if (!show) return null;
 
+    const handleInputs = () => {
+        setItemName('')
+        setItemCategory('')
+        setItemEmail('')
+        setItemUsername('')
+        setItemUrl('')
+        setItemPassword('')
+    }
+
     return (
         <div className="fixed inset-0 flex items-center justify-center z-10">
             <div className="bg-black bg-opacity-50 absolute inset-0 transition-opacity duration-300" onClick={handleClose}></div>
@@ -56,8 +65,8 @@ const Modal = ({
                         <button type='button' className='bg-green-400 h-8 px-2 text-black rounded-md' onClick={() => { setItemPassword(generatePassword()) }}>Generate</button>
                     </div>
                     <div className="flex mt-10 items-center justify-between">
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={handleSave}>Save</button>
-                        <button className="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={handleClose}>Cancel</button>
+                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => { handleSave(); handleInputs() }}>Save</button>
+                        <button className="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => { handleClose(); handleInputs() }}>Cancel</button>
                     </div>
                 </form>
             </div>

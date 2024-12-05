@@ -3,6 +3,8 @@ const generateToken = require('../utils/generateToken');
 const bcrypt = require('bcrypt')
 exports.registerUser = async (req, res) => {
   const { username, email, password } = req.body;
+  console.log(req.body);
+
 
   try {
     const userExists = await User.findOne({ email });
@@ -16,6 +18,8 @@ exports.registerUser = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({ message: error.message });
   }
 };

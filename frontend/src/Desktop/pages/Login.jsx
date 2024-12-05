@@ -14,8 +14,8 @@ const Login = () => {
       const { data } = await login(formData);
       loginUser(data);
       alert("Login Successful");
-      navigate('/home')
-      
+      navigate('/')
+
     } catch (error) {
       alert(error);
     }

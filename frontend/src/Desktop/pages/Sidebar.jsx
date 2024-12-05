@@ -30,7 +30,7 @@ function getCategories(passwords) {
 }
 
 function SideItem({ data, icon, title, func, isf }) {
-    return <div className='flex items-center gap-3 my-4 opacity-80 hover:opacity-100 hover:cursor-pointer' onClick={() => { isf ? func(getFavoriteElements(data)) : func(getElementsOfType(data, title)) }}>
+    return <div className='flex items-center gap-4 my-6 opacity-80 hover:opacity-100 hover:cursor-pointer' onClick={() => { isf ? func(getFavoriteElements(data)) : func(getElementsOfType(data, title)) }}>
         <span>{icon}</span>
         <span>{title}</span>
     </div>
@@ -40,7 +40,7 @@ function SideCategory({ data, category }) {
     const dispatch = useDispatch();
 
     return <div className='flex items-center'>
-        <div className='flex items-center gap-3 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200'
+        <div className='flex items-center gap-4 my-2 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200'
             onClick={() => {
                 dispatch(setCategory(category))
             }}
@@ -83,7 +83,7 @@ const Sidebar = () => {
             password: itemPassword,
             category: itemCategory
         };
-        addPassword(item, user.token);
+        await addPassword(item, user.token);
 
         const result = await getPasswords(user.token);
         dispatch(setPasswordItems(await result.data));
@@ -93,7 +93,7 @@ const Sidebar = () => {
 
 
     return (
-        <aside className="border-r-2 dark:border-0 border-gray-300 bg-[#262835] h-full text-white w-96 p-8 flex flex-col transition-all duration-300">
+        <aside className="border-r-2 dark:border-0 border-gray-300 bg-[#262835] h-full text-white w-[450px] p-8 flex flex-col transition-all duration-300">
             <div className="flex items-center mb-8">
                 <img className='w-6 mr-3' src={icon} alt="Icon" />
                 <span className="text-2xl font-bold">Vault</span>

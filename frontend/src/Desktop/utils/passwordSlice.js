@@ -7,7 +7,8 @@ const passwordSlice = createSlice({
         selectedCategory: null,
         selectedItem: null,
         rowItems: [],
-        status: "Connected"
+        status: "Connected",
+        itemClose: false,
     },
     reducers: {
         setPasswordItems: (state, action) => {
@@ -24,6 +25,9 @@ const passwordSlice = createSlice({
         },
         setStatus: (state, action) => {
             state.status = action.payload;
+        },
+        setItemClose: (state) => {
+            state.itemClose = !state.itemClose;
         }
     }
 })
@@ -34,5 +38,6 @@ export const {
     setCategory,
     setItem,
     setRowItems,
-    setStatus
+    setStatus,
+    setItemClose
 } = passwordSlice.actions;

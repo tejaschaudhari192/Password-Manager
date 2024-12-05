@@ -32,10 +32,11 @@ const UpdateModal = ({ handleModalClose }) => {
 
     const handelUpdate = async () => {
         dispatch(setStatus("Updating"));
+        handleModalClose();
 
-        const id = selectedItem._id;
+        const id = await selectedItem._id;
 
-        updatePassword({
+        await updatePassword({
             id: id,
             name: itemName,
             site: itemUrl,
@@ -46,7 +47,6 @@ const UpdateModal = ({ handleModalClose }) => {
             lastModified: Date.now()
         }, user.token)
 
-        handleModalClose();
         const response = await getPasswords(user.token);
 
         dispatch(setPasswordItems(await response.data));
