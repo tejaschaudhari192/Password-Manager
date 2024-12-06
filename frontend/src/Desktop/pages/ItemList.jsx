@@ -59,7 +59,7 @@ const ItemList = ({ curr, rowFunc }) => {
             </div>
             <div className='min-w-fit overflow-x-hidden hide-scrollbar'>
 
-                {(items.length > 0 ? items.map((item, index) => {
+                {items ? (items.length > 0 ? items.map((item, index) => {
                     return <Item key={index} item={item} func={curr} />
                 }) : (
                     <div className='flex flex-col gap-2'>
@@ -81,7 +81,7 @@ const ItemList = ({ curr, rowFunc }) => {
                         <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
                         </div>
                     </div>
-                ))}
+                )) : ('')}
 
             </div>
         </div>
