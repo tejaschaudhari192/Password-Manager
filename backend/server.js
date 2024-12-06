@@ -10,7 +10,6 @@ connectDB();
 
 const app = express();
 
-app.options('*', cors());
 app.use(bodyParser.json());
 
 const corsOptions = {
@@ -21,6 +20,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions))
+app.options('*', cors());
 
 app.use(express.json());
 
