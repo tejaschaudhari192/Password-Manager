@@ -10,12 +10,20 @@ connectDB();
 
 const app = express();
 
-app.use(express.json());
-// app.options('*', cors());
+app.options('*', cors());
 app.use(bodyParser.json());
+
+const corsOptions = {
+    origin: ['https://password-manager-qaiv.vercel.app/', 'http://localhost:5001'],
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true,
+};
+
 app.use(cors({
     origin: '*'
 }))
+
+app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/passwords', passwordRoutes);
