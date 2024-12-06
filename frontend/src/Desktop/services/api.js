@@ -7,9 +7,9 @@ const API = axios.create({
 });
 
 export const register = (userData) => API.post("/auth/register", userData);
-export const login = (userData) => {
-    API.post("/auth/login", userData, { withCredentials: true })
-}
+export const login = (userData) =>
+    API.post("/auth/login", userData)
+
 
 export const getPasswords = (token) => {
     return API.get("/passwords", { headers: { Authorization: `Bearer ${token}` } })
