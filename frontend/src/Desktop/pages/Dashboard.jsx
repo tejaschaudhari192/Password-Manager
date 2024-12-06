@@ -4,6 +4,9 @@ import profile from "../assets/profile.png"
 import { useSelector } from 'react-redux';
 
 const isStrongPassword = (password) => {
+
+
+
     const lengthCriteria = password.length >= 8;
     const letterCriteria = /[a-zA-Z]/.test(password);
     const numberCriteria = /\d/.test(password);
@@ -46,11 +49,16 @@ const calculateHealthScore = (weakPasswords, reusedPasswords, totalPasswords) =>
 };
 
 const Dashboard = ({ data }) => {
+    if (!data) {
+        return
+    }
     const totalPasswords = data.length;
     const strongPasswords = data.filter(item => isStrongPassword(item.password)).length;
     const weakPasswords = totalPasswords - strongPasswords;
     const reusedPasswords = countReusedPasswords(data);
     const healthScore = calculateHealthScore(weakPasswords, reusedPasswords, totalPasswords);
+
+
 
     useEffect(() => {
         const options = {
