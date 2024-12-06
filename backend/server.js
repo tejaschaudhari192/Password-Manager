@@ -10,6 +10,14 @@ connectDB();
 
 const app = express();
 
+app.use((req, res, next) => {
+    console.log(`Request: ${req.method} ${req.path}`);
+    console.log('Headers:', req.headers);
+    next();
+});
+
+
+
 app.use(bodyParser.json());
 
 const corsOptions = {
