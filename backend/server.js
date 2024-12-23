@@ -22,14 +22,8 @@ const corsOptions = {
     credentials: true,
 };
 
-app.use(cors(corsOptions))
+app.use(cors())
 
-app.options('*', (req, res) => {
-    res.header('Access-Control-Allow-Origin', 'https://password-manager-qaiv.vercel.app'); // Frontend URL
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.status(200).end(); // End the preflight response
-});
 
 app.use(express.json());
 
