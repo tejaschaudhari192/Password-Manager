@@ -1,16 +1,17 @@
 import axios from 'axios';
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { setPasswordItems, setStatus } from '../utils/passwordSlice';
 import { API_URL } from '../../../config';
 import { getPasswords } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 const useGetData = () => {
-    const { user } = useAuth();
+    const token = localStorage.getItem('token');
     const dispatch = useDispatch();
-
+    const id = localStorage.getItem('id');
     async function bolav() {
-        const result = await getPasswords(user.token);
+        console.log(id);
+        const result = await getPasswords(token, id);
         const data = result.data;
         console.log(data);
         dispatch(setPasswordItems(data))
@@ -18,7 +19,7 @@ const useGetData = () => {
 
     useEffect(() => {
         bolav()
-    }, [])
+    }, [id])
 
 }
 

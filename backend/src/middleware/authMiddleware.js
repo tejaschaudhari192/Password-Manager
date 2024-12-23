@@ -1,22 +1,30 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const jwt = require('jsonwebtoken')
+require('dotenv').config();
 
-const protect = async (req, res, next) => {
-  let token = req.headers.authorization;
+const SECRET = "" + process.env.JWT_SECRET;
+
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  
+  if (!authHeader || !authHeader.startsWith('Bearer '))
+    return res.status(401).json({ msg: 'No token, authorization denied' });
+
+  const token = authHeader.split(' ')[1];
   // console.log(token);
 
 
-  if (token && token.startsWith('Bearer')) {
-    try {
-      const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.id).select('-password');
-      next();
-    } catch (error) {
-      res.status(401).json({ message: 'Unauthorized, invalid token' });
-    }
-  } else {
-    res.status(401).json({ message: 'Unauthorized, no token provided' });
+  try {
+    const decoded = jwt.verify(token, SECRET);
+
+    req.userId = decoded.id;
+    next();
+  } catch (error) {
+
+    // console.log(error);
+
+    return res.status(401).json({ msg: 'Token is not valid' });
+
   }
 };
 
-module.exports = protect;
+module.exports = verifyToken

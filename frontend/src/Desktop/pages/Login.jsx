@@ -2,19 +2,27 @@ import React, { useState } from "react";
 import { useAuth } from '../context/AuthContext';
 import { login } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserID } from "../utils/passwordSlice";
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const { login: loginUser } = useAuth();
   const navigate = useNavigate();
+  // const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await login(formData);
-      loginUser(data);
+      const res = await login(formData);
+      console.log(res.data);
+      const id = await res.data._id;
+      // dispatch(setUserID(await res.data._id))
+      console.log(id);
+      
+      localStorage.setItem('id', id);
+      setToken(await res.data.token);
       alert("Login Successful");
-      navigate('/')
+      await navigate('/')
 
     } catch (error) {
       alert(error);

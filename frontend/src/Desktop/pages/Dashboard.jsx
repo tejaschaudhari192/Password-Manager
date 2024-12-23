@@ -58,8 +58,6 @@ const Dashboard = ({ data }) => {
     const reusedPasswords = countReusedPasswords(data);
     const healthScore = calculateHealthScore(weakPasswords, reusedPasswords, totalPasswords);
 
-
-
     useEffect(() => {
         const options = {
             chart: {

@@ -9,8 +9,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { APT_URL } from '../../../config'
 import { setCategory, setItem, setItemClose, setPasswordItems, setStatus } from '../utils/passwordSlice'
 import { deletePassword, getPasswords } from '../services/api'
-import { useAuth } from '../context/AuthContext'
 import useGetData from '../hooks/useGetData'
+import { IoClose } from 'react-icons/io5'
+import { IconButton, Snackbar } from '@mui/material'
 
 
 const formatDateAndCalculateDaysAgo = (dateString) => {
@@ -96,8 +97,9 @@ const PasswordItem = ({ password }) => {
 const ItemOn = ({ setData, setSelected, setRowItems }) => {
     const currentItem = useSelector(store => store.passwords.selectedItem)
     const dispatch = useDispatch();
-    const { user } = useAuth();
+    const token = localStorage.getItem('token');
 
+    const [open, setOpen] = useState(false);
     const [favorite, setFavorite] = useState(currentItem.isFavorite);
     const [modalShow, setModalShow] = useState(false);
     const [childModalShow, setChildModalShow] = useState(false);
@@ -105,19 +107,46 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
     const handleModalClose = () => setModalShow(false);
     const handleModalShow = () => setModalShow(true);
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const action = (
+        <React.Fragment>
+
+            <IconButton
+                size="medium"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <IoClose fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
+
+    
+
 
     const handleDelete = async () => {
+        setOpen(true);
+
         dispatch(setStatus("Updating"));
 
-        const id = await currentItem._id;
+        const id = currentItem._id;
         // console.log(id);
-        await deletePassword(id, user.token)
-        await dispatch(setItemClose())
+        await deletePassword(id, token)
+        const userId = localStorage.getItem('id');
 
-        const result = await getPasswords(user.token);
+        const result = await getPasswords(token, userId);
 
         dispatch(setPasswordItems(await result.data));
         dispatch(setStatus("Connected"));
+        dispatch(setItemClose())
     }
 
 
@@ -192,6 +221,13 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
             {/* Modal */}
             {modalShow && <UpdateModal currentItem={currentItem} handleModalClose={handleModalClose} setRowItems={setRowItems} setData={setData} />}
 
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message={currentItem.name + "Deleted"}
+                action={action}
+            />
         </div>
     )
 }

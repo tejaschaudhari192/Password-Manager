@@ -8,20 +8,21 @@ const API = axios.create({
 
 export const register = (userData) => API.post("/auth/register", userData);
 export const login = (userData) =>
-    API.post("/auth/login", userData, { withCredentials: true })
+    API.post("/auth/login", userData)
 
 
-export const getPasswords = (token) => {
-    return API.get("/passwords", { headers: { Authorization: `Bearer ${token}` } })
-        .then(result => {
-            return result
-        }).catch(error => {
-            return error
-        });
+export const getPasswords = async (token, id) => {
+    try {
+        const result = await API.get("/passwords", { headers: { Authorization: `Bearer ${token}` }, params: { id: id } });
+        return result;
+    } catch (error) {
+        return error;
+    }
 }
-export const addPassword = async (passwordData, token) => {
+export const addPassword = async (passwordData, token, id) => {
     return API.post("/passwords", passwordData, {
         headers: { Authorization: `Bearer ${token}` },
+        params: { id: id }
     }).then(result => {
         return result
     }).catch((error) => {
@@ -46,7 +47,7 @@ export const deletePassword = async (id, token) => {
         `/passwords`,
         {
             headers: { Authorization: `Bearer ${token}` },
-            params: { id }
+            params: { id:id }
         },
     ).then(result => {
         // console.log(result);

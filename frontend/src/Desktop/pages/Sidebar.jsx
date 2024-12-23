@@ -9,7 +9,9 @@ import Modal from './Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCategory, setPasswordItems, setRowItems, setStatus } from '../utils/passwordSlice';
 import { addPassword, getPasswords } from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import { IconButton, Snackbar } from '@mui/material';
+import { IoClose } from "react-icons/io5";
+
 
 const getElementsOfCategories = (data, categories) => {
     return data.filter(item => categories.includes(item.category));
@@ -55,25 +57,49 @@ const Sidebar = () => {
     const passwords = useSelector(store => store.passwords.passwords)
     const dispatch = useDispatch();
 
-    const { user } = useAuth();
+    const token = localStorage.getItem('token');
 
-
+    const [open, setOpen] = useState(false);
     const [modalShow, setModalShow] = useState(false);
 
     const handleModalClose = () => setModalShow(false);
     const handleModalShow = () => setModalShow(true);
 
-    const [itemName, setItemName] = useState();
-    const [itemPassword, setItemPassword] = useState();
-    const [itemEmail, setItemEmail] = useState();
-    const [itemUsername, setItemUsername] = useState();
-    const [itemUrl, setItemUrl] = useState();
-    const [itemCategory, setItemCategory] = useState();
+    const [itemName, setItemName] = useState('');
+    const [itemPassword, setItemPassword] = useState('');
+    const [itemEmail, setItemEmail] = useState('');
+    const [itemUsername, setItemUsername] = useState('');
+    const [itemUrl, setItemUrl] = useState('');
+    const [itemCategory, setItemCategory] = useState('');
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const action = (
+        <React.Fragment>
+
+            <IconButton
+                size="medium"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <IoClose fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
 
 
     const saveItem = async () => {
+        setOpen(true);
         dispatch(setStatus("Updating"));
-        handleModalClose();
+
+        const id = localStorage.getItem('id')
 
         const item = {
             name: itemName,
@@ -83,11 +109,12 @@ const Sidebar = () => {
             password: itemPassword,
             category: itemCategory
         };
-        await addPassword(item, user.token);
+        await addPassword(item, token, id);
 
-        const result = await getPasswords(user.token);
+        const result = await getPasswords(token, localStorage.getItem('id'));
         dispatch(setPasswordItems(await result.data));
         dispatch(setStatus("Connected"));
+        handleModalClose();
     };
 
 
@@ -137,6 +164,15 @@ const Sidebar = () => {
                 setItemPassword={setItemPassword}
                 generatePassword={generatePassword}
             />
+
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message="Item Saved"
+                action={action}
+            />
+
         </aside>
     );
 };

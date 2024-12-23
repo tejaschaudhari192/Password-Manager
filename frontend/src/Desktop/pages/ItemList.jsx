@@ -30,6 +30,30 @@ function handleSearch(text, func, items) {
     return func(items.filter(item => item.name.toLowerCase().includes(text)))
 }
 
+
+function ItemListShimmer() {
+    return (
+        <div className='flex flex-col gap-2'>
+            <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
+            </div>
+            <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
+            </div>
+            <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
+            </div>
+            <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
+            </div>
+            <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
+            </div>
+            <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
+            </div>
+            <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
+            </div>
+            <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
+            </div>
+        </div>
+    )
+}
+
 const ItemList = ({ curr, rowFunc }) => {
     const [searchText, setSearchText] = useState("");
     const [items, setItems] = useState([])
@@ -62,30 +86,12 @@ const ItemList = ({ curr, rowFunc }) => {
                 {items ? (items.length > 0 ? items.map((item, index) => {
                     return <Item key={index} item={item} func={curr} />
                 }) : (
-                    <div className='flex flex-col gap-2'>
 
-                        <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
-                        </div>
-                        <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
-                        </div>
-                        <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
-                        </div>
-                        <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
-                        </div>
-                        <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
-                        </div>
-                        <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
-                        </div>
-                        <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
-                        </div>
-                        <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl bg-gray-300 dark:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer">
-                        </div>
-                    </div>
+                    <div className='text-black flex justify-center'>no data</div>
                 )) : ('')}
 
             </div>
         </div>
-
     )
 }
 

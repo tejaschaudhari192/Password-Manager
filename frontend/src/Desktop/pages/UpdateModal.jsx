@@ -9,8 +9,7 @@ import { useAuth } from '../context/AuthContext';
 
 const UpdateModal = ({ handleModalClose }) => {
     const dispatch = useDispatch();
-    const { user } = useAuth();
-
+    const token = localStorage.getItem('token')
 
     const [itemName, setItemName] = useState("");
     const [itemPassword, setItemPassword] = useState("");
@@ -45,9 +44,9 @@ const UpdateModal = ({ handleModalClose }) => {
             password: itemPassword,
             category: itemCategory,
             lastModified: Date.now()
-        }, user.token)
+        }, token)
 
-        const response = await getPasswords(user.token);
+        const response = await getPasswords(token,localStorage.getItem('id'));
 
         dispatch(setPasswordItems(await response.data));
         dispatch(setStatus("Connected"));

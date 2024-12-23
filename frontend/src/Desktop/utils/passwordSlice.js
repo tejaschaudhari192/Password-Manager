@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const passwordSlice = createSlice({
     name: 'passwords',
     initialState: {
+        userId: null,
         passwords: [],
         selectedCategory: null,
         selectedItem: null,
@@ -11,6 +12,9 @@ const passwordSlice = createSlice({
         itemClose: false,
     },
     reducers: {
+        setUserID: (state, action) => {
+            state.userId = action.payload
+        },
         setPasswordItems: (state, action) => {
             state.passwords = action.payload;
         },
@@ -39,5 +43,6 @@ export const {
     setItem,
     setRowItems,
     setStatus,
-    setItemClose
+    setItemClose,
+    setUserID
 } = passwordSlice.actions;

@@ -1,23 +1,27 @@
 const Password = require('../models/Password');
 
 exports.getPasswords = async (req, res) => {
-	console.log('sending...');
+	// console.log(req.query);
+	const userId = req.query.id;
 
 	try {
-		const passwords = await Password.find({ userId: req.user.id });
+		const passwords = await Password.find({ userId});
+		console.log('sending...');
+
 		return res.status(201).json(passwords);
 	} catch (error) {
+		console.log(error);
 		return res.status(500).json({ message: error.message });
 	}
 };
 
 exports.createPassword = async (req, res) => {
-	const { _id, name, site, username, email, password, category, notes, isFavorite } = req.body;
+	const { name, site, username, email, password, category, notes, isFavorite } = req.body;
 	console.log('adding...');
 
 	try {
 		const newPassword = await Password.create({
-			userId: req.user.id,
+			userId: req.query.id,
 			name,
 			site,
 			username,
@@ -30,6 +34,8 @@ exports.createPassword = async (req, res) => {
 
 		return res.status(201).json(newPassword);
 	} catch (error) {
+		console.log(error);
+		
 		return res.status(500).json({ message: error.message });
 	}
 };
@@ -57,7 +63,7 @@ exports.deletePassword = async (req, res) => {
 
 	return Password.findByIdAndDelete(id)
 		.then((result) => {
-			// console.log(result);
+			console.log(result);
 			return res.status(201).json(result);
 		})
 		.catch((error) => {

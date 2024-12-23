@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Homepage from './pages/Homepage';
 import './App.css'
 import appStore from './utils/appStore';
@@ -9,36 +9,38 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
 
-const PrivateRoute = ({ children }) => {
-  const { user } = useAuth();
-  console.log(user);
-
-  return user ? children : <Navigate to="/login" />;
-};
-
 const Desktop = () => {
+
+  const [token, setToken] = useState(localStorage.getItem('token'));
+
+  const saveToken = (userToken) => {
+    localStorage.setItem('token', userToken);
+    setToken(userToken);
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+  };
+
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/home"
-            element={
-              <PrivateRoute>
-                <Provider store={appStore}>
-                  <div className='relative bg-slate-700 font-sans h-screen w-screen text-white no-scrollbar flex justify-center items-center *:m-0 *:p-0 *:box-border'>
-                    <Homepage />
-                  </div>
-                </Provider>
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={token ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<Login setToken={saveToken} />} />
+        <Route path="/register" element={<Register setToken={saveToken} />} />
+        <Route
+          path="/home"
+          element={
+            <Provider store={appStore}>
+              <div className='relative bg-slate-700 font-sans h-screen w-screen text-white no-scrollbar flex justify-center items-center *:m-0 *:p-0 *:box-border'>
+                <Homepage />
+              </div>
+            </Provider>
+          }
+        />
+      </Routes>
+    </Router>
   )
 }
 

@@ -15,7 +15,7 @@ exports.registerUser = async (req, res) => {
       _id: user._id,
       username: user.username,
       email: user.email,
-      token: generateToken(user._id),
+      token: generateToken(user._id, user),
     });
   } catch (error) {
     console.log(error);
@@ -34,7 +34,7 @@ exports.loginUser = async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
-        token: generateToken(user._id),
+        token: generateToken(user._id, user),
       });
     } else {
       res.status(401).json({ message: 'Invalid email or password' });

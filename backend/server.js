@@ -5,16 +5,11 @@ const authRoutes = require('./src/routes/authRoutes');
 const passwordRoutes = require('./src/routes/passwordRoutes');
 const cors = require('cors')
 const bodyParser = require("body-parser");
-dotenv.config();
+require('dotenv').config();
+
 connectDB();
 
 const app = express();
-
-app.use((req, res, next) => {
-    console.log(`Request: ${req.method} ${req.path}`);
-    console.log('Headers:', req.headers);
-    next();
-});
 
 
 

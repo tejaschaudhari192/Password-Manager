@@ -3,8 +3,7 @@ import { register } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Register = () => {
-  const { login: loginUser } = useAuth();
+const Register = ({setToken}) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -16,9 +15,11 @@ const Register = () => {
     e.preventDefault();
     try {
       const { data } = await register(formData);
-      await loginUser(data)
+      // const id = await data._id;
+      // setToken(await data.token);
+      
       alert("Registration Successful");
-      navigate('/')
+      navigate('/login')
     } catch (error) {
       alert(error);
     }
