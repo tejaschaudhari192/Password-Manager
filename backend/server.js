@@ -15,21 +15,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-// Allow CORS for specific origin
-app.use(cors({
-    origin: 'https://password-manager-qaiv.vercel.app',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-// Handle preflight requests
-app.options('*', (req, res) => {
-    res.header('Access-Control-Allow-Origin', 'https://password-manager-qaiv.vercel.app');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.sendStatus(200); // Send HTTP 200 for preflight
-});
-
+app.use(cors());
 
 app.use(express.json());
 
