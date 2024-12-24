@@ -16,9 +16,9 @@ const app = express();
 app.use(bodyParser.json());
 
 const corsOptions = {
-    origin: ['https://password-manager-qaiv.vercel.app/', 'http://localhost:5001'],
+    origin: ['*'],
     methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['*'],
     credentials: true,
 };
 
