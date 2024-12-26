@@ -10,10 +10,10 @@ const useGetData = () => {
     const dispatch = useDispatch();
     const id = localStorage.getItem('id');
     async function bolav() {
-        console.log(id);
+        // console.log(id);
         const result = await getPasswords(token, id);
         const data = result.data;
-        console.log(data);
+        // console.log(data);
         dispatch(setPasswordItems(data))
     }
 

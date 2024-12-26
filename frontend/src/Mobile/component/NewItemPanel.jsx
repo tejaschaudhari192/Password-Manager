@@ -32,7 +32,7 @@ function NewItemPanel({ show, onClose, setFilteredItems, setItems }) {
       category: category,
       password: password
     }
-    console.log(item);
+    // console.log(item);
     await axios.post(APT_URL, item).then((response) => {
       // console.log(response);
     })

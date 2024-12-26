@@ -40,7 +40,7 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 
     await axios.delete(APT_URL+`/delete/${id}`)
       .then((result) => {
-        console.log(result);
+        // console.log(result);
       })
       .catch((error) => {
         console.log(error);
@@ -53,7 +53,7 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       })
     onClose()
 
@@ -72,7 +72,7 @@ function EditItem({ show, onClose, item, setItems, setFilteredItems }) {
 
     })
       .then((result) => {
-        console.log(result);
+        // console.log(result);
       })
       .catch((error) => {
         console.log(error);
