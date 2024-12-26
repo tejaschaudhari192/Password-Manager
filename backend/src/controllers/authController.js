@@ -3,7 +3,6 @@ const generateToken = require('../utils/generateToken');
 const bcrypt = require('bcrypt')
 exports.registerUser = async (req, res) => {
   const { username, email, password } = req.body;
-  console.log(req.body);
 
 
   try {
@@ -19,8 +18,7 @@ exports.registerUser = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.errmsg });
   }
 };
 
@@ -37,9 +35,10 @@ exports.loginUser = async (req, res) => {
         token: generateToken(user._id, user),
       });
     } else {
-      res.status(401).json({ message: 'Invalid email or password' });
+      if (!user) return res.status(404).json({ message: "Email not found" });
+      return res.status(401).json({ message: 'Wrong Password' });
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
