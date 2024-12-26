@@ -15,7 +15,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(cors({
-    origin: ['*']
+    origin: ['http://localhost:5000']
 }));
 
 app.use(express.json());
