@@ -25,7 +25,13 @@ const Login = ({ setToken }) => {
       await navigate('/')
 
     } catch (error) {
-      alert(error);
+      if (error.status == 404) {
+        alert("User not exist")
+      }
+      else if(error.status == 401){
+        alert("Wrong Password")
+      }
+      
     }
   };
 

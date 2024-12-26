@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import './homepage.css'
 import { CiSearch } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
-import { setItem, setItemClose } from '../utils/passwordSlice';
+import { setItem, setItemClose, setRowItems } from '../utils/passwordSlice';
 
 const Item = ({ item }) => {
     const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const Item = ({ item }) => {
         <div className="my-scroll-container border-gray-400 dark:bg-inherit relative  mx-3 flex shrink-0 items-center gap-4 h-16 w-[400px] p-4 py-10 rounded-xl hover:bg-gray-300 dark:hover:bg-blue-500 transition-all duration-150 no-scrollbar cursor-pointer"
             onClick={() => {
                 dispatch(setItem(item))
-                dispatch(setItemClose())
+                // dispatch(setItemClose())
             }}>
             {item.isFavorite ? <div className='absolute right-1 text-xs'>⭐</div> : ''}
 
@@ -26,8 +26,10 @@ const Item = ({ item }) => {
     )
 }
 
-function handleSearch(text, func, items) {
-    return func(items.filter(item => item.name.toLowerCase().includes(text)))
+function handleSearch(text,rowItems) {
+    
+    const filteredList = rowItems.filter(item => item.name.toLowerCase().includes(text))
+    return filteredList;
 }
 
 
@@ -54,19 +56,26 @@ function ItemListShimmer() {
     )
 }
 
-const ItemList = ({ curr, rowFunc }) => {
-    const [searchText, setSearchText] = useState("");
-    const [items, setItems] = useState([])
-    const selectedCategory = useSelector(store => store.passwords.selectedCategory)
+const ItemList = ({ curr }) => {
+    const [items, setItems] = useState([]);
+    const dispatch = useDispatch();
+    const selectedCategory = useSelector(store => store.passwords.selectedCategory);
+    const rowItems = useSelector(store => store.passwords.rowItems);
 
 
     const passwords = useSelector(store => store.passwords.passwords)
+
+    useEffect(()=>{
+        setItems(rowItems)
+    },[rowItems])
 
     useEffect(() => {
         if (selectedCategory != null) {
             const filterdata = passwords.filter(item => selectedCategory.includes(item.category));
             setItems(filterdata)
+            setRowItems(filterdata)
         } else {
+            setRowItems(passwords)
             setItems(passwords)
 
         }
@@ -78,7 +87,7 @@ const ItemList = ({ curr, rowFunc }) => {
                 <CiSearch color='#4384fc' />
                 <input autoFocus
                     className='bg-inherit text-sm h-10' type='text' placeholder='Search...'
-                    onChange={(e) => { handleSearch(e.target.value, rowFunc, items) }}>
+                    onChange={(e) => { setItems(handleSearch(e.target.value,rowItems)) }}>
                 </input>
             </div>
             <div className='min-w-fit overflow-x-hidden hide-scrollbar'>
@@ -86,7 +95,6 @@ const ItemList = ({ curr, rowFunc }) => {
                 {items ? (items.length > 0 ? items.map((item, index) => {
                     return <Item key={index} item={item} func={curr} />
                 }) : (
-
                     <div className='text-black flex justify-center'>no data</div>
                 )) : ('')}
 

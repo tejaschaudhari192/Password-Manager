@@ -19,6 +19,26 @@ export const getPasswords = async (token, id) => {
         return error;
     }
 }
+
+export const getPassword = async (token, id) => {
+    try {
+        const result = await API.get("/password", { headers: { Authorization: `Bearer ${token}` }, params: { id: id } });
+        return result;
+    } catch (error) {
+        return error;
+    }
+}
+
+export const setFavorite = async (token, id, isFavorite) => {
+    const passwordData = {isFavorite};
+    try {
+        const result = await API.post("/password",passwordData, { headers: { Authorization: `Bearer ${token}` }, params: { id: id } });
+        return result;
+    } catch (error) {
+        return error;
+    }
+}
+
 export const addPassword = async (passwordData, token, id) => {
     return API.post("/passwords", passwordData, {
         headers: { Authorization: `Bearer ${token}` },
@@ -34,7 +54,7 @@ export const updatePassword = async (passwordData, token) => {
     return API.put("/passwords", passwordData, {
         headers: { Authorization: `Bearer ${token}` },
     }).then(result => {
-        console.log(result);
+        // console.log(result);
     }).catch((error) => {
         console.log(error);
     })
@@ -47,7 +67,7 @@ export const deletePassword = async (id, token) => {
         `/passwords`,
         {
             headers: { Authorization: `Bearer ${token}` },
-            params: { id:id }
+            params: { id: id }
         },
     ).then(result => {
         // console.log(result);

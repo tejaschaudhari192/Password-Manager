@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import generatePassword from './PasswordGenerator';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPasswordItems, setStatus } from '../utils/passwordSlice';
+import { setItem, setPasswordItems, setStatus } from '../utils/passwordSlice';
 import { APT_URL } from '../../../config';
-import { getPasswords, updatePassword } from '../services/api';
+import { getPassword, getPasswords, updatePassword } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 const UpdateModal = ({ handleModalClose }) => {
@@ -46,9 +46,14 @@ const UpdateModal = ({ handleModalClose }) => {
             lastModified: Date.now()
         }, token)
 
-        const response = await getPasswords(token,localStorage.getItem('id'));
+        const response = await getPasswords(token, localStorage.getItem('id'));
 
         dispatch(setPasswordItems(await response.data));
+        const res = await getPassword(token,id)
+        // console.log(res);
+        
+        dispatch(setItem(res.data))
+
         dispatch(setStatus("Connected"));
     }
 

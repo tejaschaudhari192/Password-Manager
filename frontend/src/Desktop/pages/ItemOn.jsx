@@ -8,7 +8,7 @@ import UpdateModal from './UpdateModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { APT_URL } from '../../../config'
 import { setCategory, setItem, setItemClose, setPasswordItems, setStatus } from '../utils/passwordSlice'
-import { deletePassword, getPasswords } from '../services/api'
+import { deletePassword, getPassword, getPasswords, setFavorite } from '../services/api'
 import useGetData from '../hooks/useGetData'
 import { IoClose } from 'react-icons/io5'
 import { IconButton, Snackbar } from '@mui/material'
@@ -67,7 +67,7 @@ const PasswordItem = ({ password }) => {
 
     return (
         <div className='flex flex-col'>
-            <p className='text-base'>Password</p>
+            <p className='text-base text-blue-400'>Password</p>
             <div className="relative flex w-4/5">
                 <input
                     type={showPassword ? 'text' : 'password'}
@@ -100,9 +100,9 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
     const token = localStorage.getItem('token');
 
     const [open, setOpen] = useState(false);
-    const [favorite, setFavorite] = useState(currentItem.isFavorite);
     const [modalShow, setModalShow] = useState(false);
     const [childModalShow, setChildModalShow] = useState(false);
+    const [itemFavorite, setItemFavorite] = useState(currentItem.isFavorite);
 
     const handleModalClose = () => setModalShow(false);
     const handleModalShow = () => setModalShow(true);
@@ -129,7 +129,7 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
         </React.Fragment>
     );
 
-    
+
 
 
     const handleDelete = async () => {
@@ -145,11 +145,26 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
         const result = await getPasswords(token, userId);
 
         dispatch(setPasswordItems(await result.data));
+        // dispatch(setSelected(null))
+        dispatch(setItem(null))
         dispatch(setStatus("Connected"));
-        dispatch(setItemClose())
     }
 
 
+    const handleFavorite = async (isFavorite) => {
+        dispatch(setStatus("Updating"));
+
+        const id = currentItem._id;
+        const res = await setFavorite(token, id, isFavorite);
+        const updatedItem = await getPassword(token,id);
+        setItemFavorite(updatedItem.data.isFavorite)
+        const userId = localStorage.getItem('id');
+
+        const result = await getPasswords(token, userId);
+
+        dispatch(setPasswordItems(await result.data));
+        dispatch(setStatus("Connected"));
+    }
     // const handleFavorite = async () => {
     //     setFavorite(!favorite)
     //     const id = currentItem._id;
@@ -183,12 +198,13 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
         <div className='bg-orange-50 border-4 dark:border-0 my-auto text-black dark:bg-[#181b2c] w-full rounded-2xl p-10'>
             <button className="bg-red-500 text-white p-2 mt-4 rounded absolute right-5 top-16" onClick={() => { dispatch(setItem(null)) }}>Close</button>
             <div className='flex justify-end gap-2 w-full h-8 dark:text-white'>
-                {/* <div onClick={() => handleFavorite()}>
+                <div className='cursor-pointer' onClick={() => handleFavorite(!currentItem.isFavorite)}>
                     {(currentItem.isFavorite == true) ?
                         <FaStar size={30} /> :
                         <FaRegStar size={30} />
                     }
-                </div> */}
+                </div>
+
                 <FaEdit className='cursor-pointer' size={30} onClick={handleModalShow} />
                 <AiOutlineDelete className='cursor-pointer' size={30} onClick={() => { handleDelete(currentItem) }} />
             </div>
@@ -215,7 +231,7 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
 
             </div>
             <div className="mt-6 text-gray-500 text-sm">
-                Last modified : {formatDateAndCalculateDaysAgo(currentItem.lastModified).daysAgoText}  {formatDateAndCalculateDaysAgo(currentItem.lastModified).formattedDate}
+                Last modified : {formatDateAndCalculateDaysAgo(currentItem.lastModified).daysAgoText}  {formatDateAndCalculateDaysAgo(currentItem.lastModified).formattedDate} {new Date(currentItem.lastModified).toLocaleTimeString()}
             </div>
 
             {/* Modal */}

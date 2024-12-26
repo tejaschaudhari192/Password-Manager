@@ -1,28 +1,70 @@
 // Modal.js
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setPasswordItems, setStatus } from '../utils/passwordSlice';
+import { addPassword, getPasswords } from '../services/api';
 
 const Modal = ({
     show,
     handleClose,
-    handleSave,
-    setItemName,
-    setItemCategory,
-    setItemUrl,
-    setItemEmail,
-    setItemUsername,
-    itemPassword,
-    setItemPassword,
-    generatePassword
+    // handleSave,
+    // setItemName,
+    // setItemCategory,
+    // setItemUrl,
+    // setItemEmail,
+    // setItemUsername,
+    // itemPassword,
+    // setItemPassword,
+    generatePassword,
+    setOpen
 }) => {
     if (!show) return null;
 
-    const handleInputs = () => {
-        setItemName('')
-        setItemCategory('')
-        setItemEmail('')
-        setItemUsername('')
-        setItemUrl('')
-        setItemPassword('')
+    const dispatch = useDispatch();
+
+    const [itemName, setItemName] = useState('');
+    const [itemPassword, setItemPassword] = useState('');
+    const [itemEmail, setItemEmail] = useState('');
+    const [itemUsername, setItemUsername] = useState('');
+    const [itemUrl, setItemUrl] = useState('');
+    const [itemCategory, setItemCategory] = useState('');
+
+    // const handleInputs = () => {
+    //     setItemName('')
+    //     setItemCategory('')
+    //     setItemEmail('')
+    //     setItemUsername('')
+    //     setItemUrl('')
+    //     setItemPassword('')
+    // }
+
+    const saveItem = async () => {
+        const token = localStorage.getItem('token');
+        // setOpen(true);
+        dispatch(setStatus("Updating"));
+
+        const id = localStorage.getItem('id')
+
+        const item = {
+            name: itemName,
+            site: itemUrl,
+            email: itemEmail,
+            username: itemUsername,
+            password: itemPassword,
+            category: itemCategory
+        };
+        await addPassword(item, token, id);
+
+        const result = await getPasswords(token, localStorage.getItem('id'));
+        dispatch(setPasswordItems(await result.data));
+        dispatch(setStatus("Connected"));
+        handleClose();
+    };
+
+    const handleSave = () => {
+        if(itemName == '' || itemCategory == '' || itemPassword == '')
+            return alert('Fill required details')
+        saveItem();
     }
 
     return (
@@ -65,8 +107,8 @@ const Modal = ({
                         <button type='button' className='bg-green-400 h-8 px-2 text-black rounded-md' onClick={() => { setItemPassword(generatePassword()) }}>Generate</button>
                     </div>
                     <div className="flex mt-10 items-center justify-between">
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => { handleSave(); handleInputs() }}>Save</button>
-                        <button className="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => { handleClose(); handleInputs() }}>Cancel</button>
+                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => { handleSave(); }}>Save</button>
+                        <button className="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => { handleClose();}}>Cancel</button>
                     </div>
                 </form>
             </div>

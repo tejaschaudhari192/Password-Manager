@@ -21,6 +21,7 @@ const Register = ({setToken}) => {
       alert("Registration Successful");
       navigate('/login')
     } catch (error) {
+      if (error.status == 400) alert("Email already Used")
       alert(error);
     }
   };

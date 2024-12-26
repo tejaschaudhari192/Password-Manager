@@ -31,8 +31,8 @@ function getCategories(passwords) {
     return uniqueCategories;
 }
 
-function SideItem({ data, icon, title, func, isf }) {
-    return <div className='flex items-center gap-4 my-6 opacity-80 hover:opacity-100 hover:cursor-pointer' onClick={() => { isf ? func(getFavoriteElements(data)) : func(getElementsOfType(data, title)) }}>
+function SideItem({ data, icon, title }) {
+    return <div className='flex items-center gap-4 my-6 opacity-80 hover:opacity-100 hover:cursor-pointer'>
         <span>{icon}</span>
         <span>{title}</span>
     </div>
@@ -73,10 +73,7 @@ const Sidebar = () => {
     const [itemCategory, setItemCategory] = useState('');
 
     const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
+        if (reason === 'clickaway') return;
         setOpen(false);
     };
 
@@ -117,6 +114,15 @@ const Sidebar = () => {
         handleModalClose();
     };
 
+    const handleFavoriteFilter = async () => {
+        console.log('fav');
+        dispatch(setStatus("Updating"));
+        const filteredList = await getFavoriteElements(passwords);
+        // console.log(filteredList);
+
+        dispatch(setRowItems(filteredList))
+        dispatch(setStatus("Connected"));
+    }
 
 
     return (
@@ -126,10 +132,12 @@ const Sidebar = () => {
                 <span className="text-2xl font-bold">Vault</span>
             </div>
             <nav className="flex-1 transition-all duration-200">
-                <SideItem icon="🏠" title="Logins" isf={false} />
-                <SideItem icon="💳" title="Credit Cards" isf={false} />
-                <SideItem icon="📝" title="Notes" isf={false} />
-                <SideItem icon="⭐" title="Favorites" isf={true} data={passwords} />
+                <SideItem icon="🏠" title="Logins" />
+                <SideItem icon="💳" title="Credit Cards" />
+                <SideItem icon="📝" title="Notes" />
+                <div onClick={() => { handleFavoriteFilter() }}>
+                    <SideItem icon="⭐" title="Favorites" />
+                </div>
 
                 {/* Categories */}
                 <div className="mt-9">
@@ -137,7 +145,10 @@ const Sidebar = () => {
                     <div className='flex items-center' >
                         <div
                             className='flex items-center gap-3 w-40 px-2 py-2 opacity-80 hover:opacity-100 hover:cursor-pointer rounded-md hover:bg-blue-500 hover:text-white dark:hover:bg-slate-700 transition-all duration-200'
-                            onClick={() => { dispatch(setCategory(null)) }}
+                            onClick={() => {
+                                dispatch(setCategory(null))
+                                setRowItems(passwords)
+                            }}
                         >
                             <span>•</span><span>All</span>
                         </div>
