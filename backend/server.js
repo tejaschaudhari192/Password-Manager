@@ -15,7 +15,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(function(req, res, next) {  
-    res.header('Access-Control-Allow-Origin', 'http://local:5000');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5000');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header(
       'Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, X-Api-Key'
@@ -36,7 +36,7 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization']
   };
 
-app.use('*',cors());
+app.use(cors());
 
 app.use(express.json());
 
