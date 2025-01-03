@@ -5,21 +5,11 @@ import { APT_URL } from '../../../config';
 
 export const Category = ({ item, func }) => {
     const [items, setItems] = useState([]);
+    const passwords = useSelector(store => store.passwords.passwords)
 
     useEffect(() => {
-        getPasswords();
-    }, [])
-
-    async function getPasswords() {
-        await axios.get(APT_URL)
-            .then((response) => {
-                setItems(response.data)
-
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    }
+        setItems(passwords);
+    }, [passwords])
 
     return (
 
