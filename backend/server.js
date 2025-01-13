@@ -28,13 +28,13 @@ app.use(bodyParser.json());
 //       next();
 //     }
 //   });
-  
+
 
 const corsOptions = {
-    origin: 'http://localhost:5000', // Frontend origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-  };
+  origin: 'http://localhost:5000', // Frontend origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
 
 app.use(cors());
 

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from '../context/AuthContext';
 import { login } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserID } from "../utils/passwordSlice";
-
+import Cookies from 'js-cookies';
 const Login = ({ setToken }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
@@ -18,8 +18,8 @@ const Login = ({ setToken }) => {
       const id = await res.data._id;
       // dispatch(setUserID(await res.data._id))
       console.log(id);
-      
-      localStorage.setItem('id', id);
+
+
       setToken(await res.data.token);
       alert("Login Successful");
       await navigate('/')
@@ -28,12 +28,22 @@ const Login = ({ setToken }) => {
       if (error.status == 404) {
         alert("User not exist")
       }
-      else if(error.status == 401){
+      else if (error.status == 401) {
         alert("Wrong Password")
       }
-      
+
     }
   };
+  useEffect(() => {
+    //check token if present then navigate to home from cookies
+    const token = Cookies.getItem('token');
+    if (token) {
+
+      navigate('/home')
+    }
+
+
+  })
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">

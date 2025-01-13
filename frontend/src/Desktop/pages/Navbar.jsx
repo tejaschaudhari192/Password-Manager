@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { Button, CircularProgress, Fade, Menu, MenuItem } from '@mui/material'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { useNavigate } from 'react-router-dom'
-
+import Cookies from 'js-cookies'
 const Navbar = () => {
     const status = useSelector(store => store.passwords.status)
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ const Navbar = () => {
         setAnchorEl(null);
     };
     const handleSignOut = () => {
-        localStorage.removeItem('token')
+        Cookies.removeItem('token')
         localStorage.removeItem('id')
         navigate("/login")
     }

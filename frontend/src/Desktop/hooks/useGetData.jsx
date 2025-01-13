@@ -4,16 +4,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setPasswordItems, setStatus } from '../utils/passwordSlice';
 import { getPasswords } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookies'
 const useGetData = () => {
-    const token = localStorage.getItem('token');
+    const token = Cookies.getItem('token')
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const id = localStorage.getItem('id');
+    // const id = localStorage.getItem('id');
     function bolav() {
-        getPasswords(token, id).then((result) =>{
+        getPasswords(token).then((result) => {
             const data = result.data;
             dispatch(setPasswordItems(data))
-        }).catch((error)=>{
+        }).catch((error) => {
             alert(error)
             if (error.status == 401)
                 navigate('/login')
@@ -22,7 +23,7 @@ const useGetData = () => {
 
     useEffect(() => {
         bolav()
-    }, [id])
+    }, [])
 
 }
 

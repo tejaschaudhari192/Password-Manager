@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { register } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
-const Register = ({setToken}) => {
+import Cookies from 'js-cookies';
+const Register = ({ setToken }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -17,7 +17,7 @@ const Register = ({setToken}) => {
       const { data } = await register(formData);
       // const id = await data._id;
       // setToken(await data.token);
-      
+
       alert("Registration Successful");
       navigate('/login')
     } catch (error) {
@@ -25,6 +25,16 @@ const Register = ({setToken}) => {
       alert(error);
     }
   };
+  useEffect(() => {
+    //check token if present then navigate to home from cookies
+    const token = Cookies.getItem('token');
+    if (token) {
+
+      navigate('/home')
+    }
+
+
+  })
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">

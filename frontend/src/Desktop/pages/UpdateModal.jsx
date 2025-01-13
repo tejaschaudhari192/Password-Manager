@@ -6,10 +6,10 @@ import { setItem, setPasswordItems, setStatus } from '../utils/passwordSlice';
 import { APT_URL } from '../../../config';
 import { getPassword, getPasswords, updatePassword } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-
+import Cookies from 'js-cookies'
 const UpdateModal = ({ handleModalClose }) => {
     const dispatch = useDispatch();
-    const token = localStorage.getItem('token')
+    const token = Cookies.getItem('token')
 
     const [itemName, setItemName] = useState("");
     const [itemPassword, setItemPassword] = useState("");
@@ -46,12 +46,12 @@ const UpdateModal = ({ handleModalClose }) => {
             lastModified: Date.now()
         }, token)
 
-        const response = await getPasswords(token, localStorage.getItem('id'));
+        const response = await getPasswords(token);
 
         dispatch(setPasswordItems(await response.data));
-        const res = await getPassword(token,id)
+        const res = await getPassword(token, id)
         // console.log(res);
-        
+
         dispatch(setItem(res.data))
 
         dispatch(setStatus("Connected"));

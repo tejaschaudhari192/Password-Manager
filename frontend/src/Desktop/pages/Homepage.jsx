@@ -8,17 +8,22 @@ import Dashboard from './Dashboard';
 import useGetData from '../hooks/useGetData';
 import { API_URL } from '../../../config';
 import { useSelector } from 'react-redux';
-
-const Homepage = () => {
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookies'
+const Homepage = ({ token }) => {
     const [data, setData] = useState([])
     const passwords = useSelector(store => store.passwords.passwords)
     const selectedItem = useSelector(store => store.passwords.selectedItem)
     // console.log(selectedItem);
     const itemClose = useSelector(store => store.passwords.itemClose)
-
+    const navigate = useNavigate();
     useGetData();
 
     useEffect(() => {
+        console.log(token);
+        if (!token) {
+            navigate("/login");
+        }
         setData(passwords)
     }, [passwords, selectedItem])
 

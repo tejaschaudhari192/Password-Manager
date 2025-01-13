@@ -11,9 +11,9 @@ export const login = (userData) =>
     API.post("/auth/login", userData)
 
 
-export const getPasswords = async (token, id) => {
+export const getPasswords = async (token) => {
     try {
-        const result = await API.get("/passwords", { headers: { Authorization: `Bearer ${token}` }, params: { id: id } });
+        const result = await API.get("/passwords", { headers: { Authorization: `Bearer ${token}` } });
         return result;
     } catch (error) {
         return error;
@@ -30,9 +30,9 @@ export const getPassword = async (token, id) => {
 }
 
 export const setFavorite = async (token, id, isFavorite) => {
-    const passwordData = {isFavorite};
+    const passwordData = { isFavorite };
     try {
-        const result = await API.post("/password",passwordData, { headers: { Authorization: `Bearer ${token}` }, params: { id: id } });
+        const result = await API.post("/password", passwordData, { headers: { Authorization: `Bearer ${token}` }, params: { id: id } });
         return result;
     } catch (error) {
         return error;
