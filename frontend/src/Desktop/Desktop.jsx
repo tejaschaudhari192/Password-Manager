@@ -18,6 +18,8 @@ const Desktop = () => {
   const [loading, setLoading] = useState(true);
   const saveToken = (userToken) => {
     Cookies.setItem('token', userToken)
+    setIsAuthenticated(false);
+
     setToken(userToken);
   };
 
@@ -61,7 +63,7 @@ const Desktop = () => {
 
     fetchData();
     setLoading(false);
-  }, [])
+  }, [logout]);
 
   if (loading)
     return <Spinner />
