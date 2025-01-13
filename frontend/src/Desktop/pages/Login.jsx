@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserID } from "../utils/passwordSlice";
 import Cookies from 'js-cookies';
-const Login = ({ setToken }) => {
+import Spinner from "../components/Loader";
+const Login = ({ setToken, setIsAuthenticated, isAuthenticated }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   // const dispatch = useDispatch();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -21,6 +22,7 @@ const Login = ({ setToken }) => {
 
 
       setToken(await res.data.token);
+      setIsAuthenticated(true);
       alert("Login Successful");
       await navigate('/')
 
@@ -36,15 +38,19 @@ const Login = ({ setToken }) => {
   };
   useEffect(() => {
     //check token if present then navigate to home from cookies
-    const token = Cookies.getItem('token');
-    if (token) {
+    if (isAuthenticated) {
 
       navigate('/home')
     }
+    else {
+      console.log('loading is false in login')
+      setLoading(false);
+    }
 
 
-  })
-
+  }, [isAuthenticated])
+  if (loading && isAuthenticated)
+    return <Spinner />
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="w-full max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
