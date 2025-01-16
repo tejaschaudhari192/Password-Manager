@@ -12,7 +12,7 @@ import { addPassword, getPasswords } from '../services/api';
 import { IconButton, Snackbar } from '@mui/material';
 import { IoClose } from "react-icons/io5";
 
-
+import Cookies from 'js-cookies'
 const getElementsOfCategories = (data, categories) => {
     return data.filter(item => categories.includes(item.category));
 };
@@ -57,7 +57,7 @@ const Sidebar = () => {
     const passwords = useSelector(store => store.passwords.passwords)
     const dispatch = useDispatch();
 
-    const token = localStorage.getItem('token');
+    const token = Cookies.getItem('token')
 
     const [open, setOpen] = useState(false);
     const [modalShow, setModalShow] = useState(false);
@@ -108,7 +108,7 @@ const Sidebar = () => {
         };
         await addPassword(item, token, id);
 
-        const result = await getPasswords(token, localStorage.getItem('id'));
+        const result = await getPasswords(token);
         dispatch(setPasswordItems(await result.data));
         dispatch(setStatus("Connected"));
         handleModalClose();

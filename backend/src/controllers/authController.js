@@ -42,3 +42,10 @@ exports.loginUser = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+exports.verifyToken = async (req, res) => {
+  console.log("from server verify token");
+  return res.json({ message: 'Verify token', success: true });
+  // If token is present decode it
+
+}

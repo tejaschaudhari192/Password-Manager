@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from '../context/AuthContext';
 import { login } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUserID } from "../utils/passwordSlice";
-
-const Login = ({ setToken }) => {
+import Cookies from 'js-cookies';
+import Spinner from "../components/Loader";
+const Login = ({ setToken, setIsAuthenticated, isAuthenticated }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   // const dispatch = useDispatch();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -18,9 +19,10 @@ const Login = ({ setToken }) => {
       const id = await res.data._id;
       // dispatch(setUserID(await res.data._id))
       console.log(id);
-      
-      localStorage.setItem('id', id);
+
+
       setToken(await res.data.token);
+      setIsAuthenticated(true);
       alert("Login Successful");
       await navigate('/')
 
@@ -28,13 +30,27 @@ const Login = ({ setToken }) => {
       if (error.status == 404) {
         alert("User not exist")
       }
-      else if(error.status == 401){
+      else if (error.status == 401) {
         alert("Wrong Password")
       }
-      
+
     }
   };
+  useEffect(() => {
+    //check token if present then navigate to home from cookies
+    if (isAuthenticated) {
 
+      navigate('/home')
+    }
+    else {
+      console.log('loading is false in login')
+      setLoading(false);
+    }
+
+
+  }, [isAuthenticated])
+  if (loading && isAuthenticated)
+    return <Spinner />
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="w-full max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">

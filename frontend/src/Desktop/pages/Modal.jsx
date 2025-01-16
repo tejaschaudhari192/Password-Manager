@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setPasswordItems, setStatus } from '../utils/passwordSlice';
 import { addPassword, getPasswords } from '../services/api';
-
+import Cookies from 'js-cookies'
 const Modal = ({
     show,
     handleClose,
@@ -39,7 +39,7 @@ const Modal = ({
     // }
 
     const saveItem = async () => {
-        const token = localStorage.getItem('token');
+        const token = Cookies.getItem('token')
         // setOpen(true);
         dispatch(setStatus("Updating"));
 
@@ -55,14 +55,14 @@ const Modal = ({
         };
         await addPassword(item, token, id);
 
-        const result = await getPasswords(token, localStorage.getItem('id'));
+        const result = await getPasswords(token);
         dispatch(setPasswordItems(await result.data));
         dispatch(setStatus("Connected"));
         handleClose();
     };
 
     const handleSave = () => {
-        if(itemName == '' || itemCategory == '' || itemPassword == '')
+        if (itemName == '' || itemCategory == '' || itemPassword == '')
             return alert('Fill required details')
         saveItem();
     }
@@ -108,7 +108,7 @@ const Modal = ({
                     </div>
                     <div className="flex mt-10 items-center justify-between">
                         <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => { handleSave(); }}>Save</button>
-                        <button className="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => { handleClose();}}>Cancel</button>
+                        <button className="text-red-500 hover:text-red-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => { handleClose(); }}>Cancel</button>
                     </div>
                 </form>
             </div>

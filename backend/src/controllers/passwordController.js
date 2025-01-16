@@ -1,11 +1,13 @@
 const Password = require('../models/Password');
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
 
 exports.getPasswords = async (req, res) => {
 	// console.log(req.query);
-	const userId = req.query.id;
+	const userId = req.userId;
 
 	try {
-		const passwords = await Password.find({ userId });
+		const passwords = await Password.find({ userId: new ObjectId(userId) });
 		console.log('sending...');
 
 		return res.status(201).json(passwords);
@@ -16,7 +18,8 @@ exports.getPasswords = async (req, res) => {
 };
 
 exports.getPassword = async (req, res) => {
-	const id = req.query.id;
+	const userId = req.userId;
+	const id = req.params.id;
 	try {
 		const password = await Password.findById(id);
 		console.log('sending...');
@@ -29,12 +32,12 @@ exports.getPassword = async (req, res) => {
 }
 
 exports.setFavorite = async (req, res) => {
-	const id = req.query.id;
-	const {isFavorite} = req.body;
+	const userId = req.userId;
+	const { isFavorite } = req.body;
 
 	console.log(req.body);
 
-	return Password.findByIdAndUpdate(id, { isFavorite:isFavorite })
+	return Password.findByIdAndUpdate(id, { isFavorite: isFavorite })
 		.then((result) => {
 			return res.status(201).json(result);
 		})
@@ -48,10 +51,11 @@ exports.setFavorite = async (req, res) => {
 exports.createPassword = async (req, res) => {
 	const { name, site, username, email, password, category, notes, isFavorite } = req.body;
 	console.log('adding...');
+	console.log(typeof req.userId)
 
 	try {
 		const newPassword = await Password.create({
-			userId: req.query.id,
+			userId: new ObjectId(req.userId),
 			name,
 			site,
 			username,

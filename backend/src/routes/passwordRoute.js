@@ -6,7 +6,7 @@ const verifyToken = require('../middleware/authMiddleware');
 const router = express.Router();
 
 router.route('/').
-    get(verifyToken, getPassword).
-    post(verifyToken,setFavorite)
+    get(verifyToken, protect, getPassword).
+    post(verifyToken, protect, setFavorite)
 
 module.exports = router;

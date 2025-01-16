@@ -12,7 +12,7 @@ import { deletePassword, getPassword, getPasswords, setFavorite } from '../servi
 import useGetData from '../hooks/useGetData'
 import { IoClose } from 'react-icons/io5'
 import { IconButton, Snackbar } from '@mui/material'
-
+import Cookies from 'js-cookies'
 
 const formatDateAndCalculateDaysAgo = (dateString) => {
     const date = new Date(dateString);
@@ -97,7 +97,8 @@ const PasswordItem = ({ password }) => {
 const ItemOn = ({ setData, setSelected, setRowItems }) => {
     const currentItem = useSelector(store => store.passwords.selectedItem)
     const dispatch = useDispatch();
-    const token = localStorage.getItem('token');
+    const token = Cookies.getItem('token');
+    console.log("the token is :", token)
 
     const [open, setOpen] = useState(false);
     const [modalShow, setModalShow] = useState(false);
@@ -141,8 +142,8 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
         // console.log(id);
         await deletePassword(id, token)
         const userId = localStorage.getItem('id');
-
-        const result = await getPasswords(token, userId);
+        console.log(token, "the token in passowrds")
+        const result = await getPasswords(token);
 
         dispatch(setPasswordItems(await result.data));
         // dispatch(setSelected(null))
@@ -156,7 +157,7 @@ const ItemOn = ({ setData, setSelected, setRowItems }) => {
 
         const id = currentItem._id;
         const res = await setFavorite(token, id, isFavorite);
-        const updatedItem = await getPassword(token,id);
+        const updatedItem = await getPassword(token, id);
         setItemFavorite(updatedItem.data.isFavorite)
         const userId = localStorage.getItem('id');
 

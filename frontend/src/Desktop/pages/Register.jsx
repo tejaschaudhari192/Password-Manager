@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { register } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
-const Register = ({setToken}) => {
+import Cookies from 'js-cookies';
+import Spinner from "../components/Loader";
+const Register = ({ setToken, setIsAuthenticated, isAuthenticated }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -17,15 +19,29 @@ const Register = ({setToken}) => {
       const { data } = await register(formData);
       // const id = await data._id;
       // setToken(await data.token);
-      
+
       alert("Registration Successful");
+      setIsAuthenticated(true);
       navigate('/login')
     } catch (error) {
       if (error.status == 400) alert("Email already Used")
+      setIsAuthenticated(false);
       alert(error);
     }
   };
+  useEffect(() => {
+    //check token if present then navigate to home from cookies
 
+    if (isAuthenticated) {
+
+      navigate('/home')
+    }
+    else setLoading(false);
+
+
+  }, [isAuthenticated]);
+  if (loading)
+    return <Spinner />
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
       <div className="w-full max-w-md p-8 space-y-4 bg-gray-800 rounded-lg shadow-lg">
